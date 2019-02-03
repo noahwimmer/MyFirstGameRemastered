@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import interfaces.HUD;
+
 import main.Game;
 import main.GameObject;
 import main.Handler;
@@ -29,6 +31,8 @@ public class Player extends GameObject{
 		
 		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 37);
 		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 60);
+		
+		collison();
 	}
 
 	@Override
@@ -40,6 +44,20 @@ public class Player extends GameObject{
 	@Override
 	public Rectangle getBounds() {
 		return(new Rectangle((int)x, (int)y, 32, 32));
+	}
+	
+	private void collison() {
+		for(int i = 0; i < handler.getObject().size(); i++) {
+			
+			GameObject tempObject = handler.getObject().get(i);
+			
+			if(tempObject.getId() == ID.Enemy) {
+				if(getBounds().intersects(tempObject.getBounds())) {
+					// Collision code
+					HUD.HEALTH -= 1.5;	
+				}
+			} 			
+		}
 	}
 
 }

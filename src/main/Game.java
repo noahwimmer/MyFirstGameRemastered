@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 import enemy.BasicEnemy;
 import enemy.FastEnemy;
@@ -18,11 +19,13 @@ public class Game extends Canvas implements Runnable {
 
 	private boolean running = false;
 	private Thread thread;
-	private Handler handler;
+	private Random r;
 	
+	private Handler handler;	
 	private HUD hud;
 	
 	public Game() {
+		r = new Random();
 		handler = new Handler();
 		hud = new HUD();
 		
@@ -30,11 +33,11 @@ public class Game extends Canvas implements Runnable {
 
 		//Add objects to the start of the game here.
 
-		handler.addObject(new Player(100f, 100f, ID.Player, handler));
+		handler.addObject(new Player((Constants.GAME_WIDTH / 2) - 16, (Constants.GAME_HEIGHT / 2) - 16, ID.Player, handler));
 
-		handler.addObject(new BasicEnemy(100f, 100f, ID.Enemy, handler));
-		handler.addObject(new FastEnemy(100f, 100f, ID.Enemy, handler));
-		handler.addObject(new SmartEnemy(250f, 250f, ID.Enemy, handler));
+		handler.addObject(new BasicEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
+		handler.addObject(new FastEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
+		handler.addObject(new SmartEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 
 		
 		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
