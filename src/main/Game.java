@@ -29,8 +29,7 @@ public class Game extends Canvas implements Runnable {
 
 		handler.addObject(new BasicEnemy(100f, 100f, ID.Enemy, handler));
 		handler.addObject(new FastEnemy(100f, 100f, ID.Enemy, handler));
-		handler.addObject(new SmartEnemy(100f, 100f, ID.Enemy, handler));
-		handler.addObject(new SmartEnemy(100f, 100f, ID.Enemy, handler));
+		handler.addObject(new SmartEnemy(250f, 250f, ID.Enemy, handler));
 
 		
 		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);

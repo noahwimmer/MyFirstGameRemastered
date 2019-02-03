@@ -19,10 +19,10 @@ public abstract class GameObject {
 	public abstract void render(Graphics g);
 	public abstract Rectangle getBounds();
 	
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 	public float getX() {

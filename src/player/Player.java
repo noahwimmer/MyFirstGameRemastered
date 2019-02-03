@@ -9,6 +9,7 @@ import main.Game;
 import main.GameObject;
 import main.Handler;
 import main.ID;
+import util.Constants;
 
 public class Player extends GameObject{
 	
@@ -26,8 +27,8 @@ public class Player extends GameObject{
 		x += velX;
 		y += velY;
 		
-	//	x = Game.clamp(x, 0, Game.WIDTH - 37);
-	//	y = Game.clamp(y, 0, Game.HEIGHT - 60);
+		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 37);
+		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 60);
 	}
 
 	@Override
