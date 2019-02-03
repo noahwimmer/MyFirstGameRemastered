@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import enemy.BasicEnemy;
+import enemy.FastEnemy;
+import enemy.SmartEnemy;
+import player.Player;
 import util.Constants;
 import util.KeyInput;
 
@@ -19,7 +23,15 @@ public class Game extends Canvas implements Runnable {
 		handler = new Handler();
 		this.addKeyListener(new KeyInput(handler));
 
-		
+		//Add objects to the start of the game here.
+
+		handler.addObject(new Player(100f, 100f, ID.Player, handler));
+
+		handler.addObject(new BasicEnemy(100f, 100f, ID.Enemy, handler));
+		handler.addObject(new FastEnemy(100f, 100f, ID.Enemy, handler));
+		handler.addObject(new SmartEnemy(100f, 100f, ID.Enemy, handler));
+		handler.addObject(new SmartEnemy(100f, 100f, ID.Enemy, handler));
+
 		
 		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
 	}
@@ -79,8 +91,6 @@ public class Game extends Canvas implements Runnable {
 			while(delta >= 1) {
 				tick();
 				delta--;
-			}
-			if(running) {
 				render();
 				frames++;
 			}
@@ -92,6 +102,18 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 		stop();
+	}
+	
+	public static float clamp(float var, float min, float max) {
+		if(var >=  max) {
+			return var= max;
+		}
+		else if(var <= min) {
+			return var = min;
+		}
+		else {
+			return var;
+		}
 	}
 	
 	public static void main(String[] args) {
