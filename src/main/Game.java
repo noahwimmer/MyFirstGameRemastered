@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import enemy.BasicEnemy;
 import enemy.FastEnemy;
 import enemy.SmartEnemy;
+import interfaces.HUD;
 import player.Player;
 import util.Constants;
 import util.KeyInput;
@@ -19,8 +20,12 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private Handler handler;
 	
+	private HUD hud;
+	
 	public Game() {
 		handler = new Handler();
+		hud = new HUD();
+		
 		this.addKeyListener(new KeyInput(handler));
 
 		//Add objects to the start of the game here.
@@ -37,6 +42,8 @@ public class Game extends Canvas implements Runnable {
 	
 	public void tick() {
 		handler.tick();
+		
+		hud.tick();
 	}
 	
 	public void render() {
@@ -53,6 +60,8 @@ public class Game extends Canvas implements Runnable {
 		
 		
 		handler.render(g);
+		
+		hud.render(g);
 				
 		g.dispose();
 		bs.show();
