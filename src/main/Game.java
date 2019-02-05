@@ -13,6 +13,7 @@ import interfaces.HUD;
 import player.Player;
 import util.Constants;
 import util.KeyInput;
+import util.Spawn;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = -7071532049979466544L;
@@ -23,22 +24,25 @@ public class Game extends Canvas implements Runnable {
 	
 	private Handler handler;	
 	private HUD hud;
+	private Spawn spawner;
 	
 	public Game() {
 		r = new Random();
 		handler = new Handler();
 		hud = new HUD();
+		spawner = new Spawn(handler, hud);
 		
 		this.addKeyListener(new KeyInput(handler));
 
 		//Add objects to the start of the game here.
 
 		handler.addObject(new Player((Constants.GAME_WIDTH / 2) - 16, (Constants.GAME_HEIGHT / 2) - 16, ID.Player, handler));
-
+		handler.addObject(new BasicEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
+		/*
 		handler.addObject(new BasicEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 		handler.addObject(new FastEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 		handler.addObject(new SmartEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
-
+		*/
 		
 		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
 	}
@@ -47,6 +51,7 @@ public class Game extends Canvas implements Runnable {
 		handler.tick();
 		
 		hud.tick();
+		spawner.tick();
 	}
 	
 	public void render() {
