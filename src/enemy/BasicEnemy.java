@@ -11,6 +11,9 @@ import main.Handler;
 import main.ID;
 import util.Constants;
 
+//TODO implement the following line to resolve issue
+//throw new RuntimeException("GameObject out of bounds");
+
 public class BasicEnemy extends GameObject {
 	
 	private Handler handler;
