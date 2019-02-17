@@ -5,6 +5,7 @@ public enum ID {
 	Player(),
 	Enemy(),
 	SlowEnemy(),
-	SlowEnemyBullet();
+	SlowEnemyBullet(),
+	Trail();
 	
 }

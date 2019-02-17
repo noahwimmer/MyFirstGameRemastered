@@ -38,7 +38,10 @@ public class BasicEnemy extends GameObject {
 		if(y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
 		if(x <= 0 || x >= Constants.GAME_WIDTH - 30) velX *= -1;
 		
-		//TODO add trail here eventually
+		// makes the toAdd list in handler too big and slows down the game D:
+		// comment adding trail for temp fix for slowing game
+		//handler.addToList(new Trail(x, y, ID.Trail, Color.red, 24, 24, 0.26f, handler));
+		
 	}
 
 	@Override

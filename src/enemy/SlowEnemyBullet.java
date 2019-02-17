@@ -16,7 +16,9 @@ public class SlowEnemyBullet extends GameObject {
 	private SlowEnemy slowEnemy;
 	
 	private int count  = 0;
-
+	private float distance;
+	private float diffX, diffY;
+	
 	public SlowEnemyBullet(float x, float y, ID id, Handler handler, float velX, float velY, SlowEnemy slowEnemy) {
 		super(x, y, id);
 		this.handler = handler;
@@ -24,25 +26,52 @@ public class SlowEnemyBullet extends GameObject {
 		this.velY = velY;
 		this.slowEnemy = slowEnemy;
 	}
+	
+	public void comeBack() {
+		velX = (float) ((-1.0/distance) * diffX);
+		velY = (float) ((-1.0/distance) * diffY);
+	}
+	
+	public void goOut() {
+		velX = (float) ((1.0/distance) * diffX);
+		velY = (float) ((1.0/distance) * diffY);
+	}
 
 	@Override
 	public void tick() {
 		x += velX;
 		y += velY;
 		
-		int distance = 40;
+		diffX = x - slowEnemy.getX() - 8f;
+		diffY = y - slowEnemy.getY() - 8f;
+		distance = (float) Math.sqrt (
+				(
+						(   Math.pow(getX() - slowEnemy.getX(), 2)  ) // x2 - x1 **2
+				)
+				+
+					   ( Math.pow(getY() - slowEnemy.getY(), 2))   // y2 - y1 ** 2
+		);
+		
+		int limit = 50;
+		
+		System.out.println(distance);
+		
+		if(distance >= limit) {
+			comeBack();
+		} else if(distance <= 20) {
+			goOut();
+		}
 	
-		if(count >= distance) {
+		/*if(count >= distance) {
 			distance = 0;
 			handler.addTrash(this);
-			handler.getToAdd().clear();
 			slowEnemy.addBullets();
-		}
+		}*/
 		
 		if(y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
 		if(x <= 0 || x >= Constants.GAME_WIDTH - 30) velX *= -1;
 		
-		count++;
+		
 	}
 
 	@Override

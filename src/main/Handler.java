@@ -36,9 +36,12 @@ public class Handler {
 			tempObject.tick();
 		}
 		// this is such a pretty for loop and so simple i love it. (I thought i'd like to remember this moment
-		for(int i = 0; i < toDispose.size(); i ++) {
+		for(int j = 0; j < 1; j++) {
+			for(int i = 0; i < toDispose.size(); i ++) {
 			object.remove(toDispose.get(i));
 		}
+		}
+		
 		
 		for(int j = 0; j < 1; j++) {
 			for(int i = 0; i < toAdd.size(); i ++) {
