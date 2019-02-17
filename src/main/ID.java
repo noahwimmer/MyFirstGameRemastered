@@ -3,6 +3,8 @@ package main;
 public enum ID {
 
 	Player(),
-	Enemy();
+	Enemy(),
+	SlowEnemy(),
+	SlowEnemyBullet();
 	
 }

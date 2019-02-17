@@ -4,6 +4,7 @@ import java.util.Random;
 
 import enemy.BasicEnemy;
 import enemy.FastEnemy;
+import enemy.SlowEnemy;
 import enemy.SmartEnemy;
 import interfaces.HUD;
 import main.GameObject;
@@ -33,26 +34,31 @@ public class Spawn {
 	}
 	
 	public void tick() {
-		// delta is so keep the enemies from spawning out of bounds
-		float delta = .10f;
 		scoreKeep++;
 		
 		if(scoreKeep >= 600) {
 			scoreKeep = 0;
 			hud.setLevel(hud.getLevel() + 1);
 			
+			
+			
 			//levels to add a basic enemy
 			if(hud.getLevel() == 2 || hud.getLevel() == 3 || hud.getLevel() == 5) {
-				handler.addObject(new BasicEnemy(((r.nextFloat() - delta) * Constants.GAME_WIDTH), ((r.nextFloat() - delta) * Constants.GAME_HEIGHT), ID.Enemy, handler));
+				handler.addObject(new BasicEnemy((Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_WIDTH), (Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_HEIGHT), ID.Enemy, handler));
 			}
 			//levels to add a smart enemy
 			if(hud.getLevel() == 4) {
-				handler.addObject(new SmartEnemy(((r.nextFloat() - delta) * Constants.GAME_WIDTH), ((r.nextFloat() - delta) * Constants.GAME_HEIGHT), ID.Enemy, handler));
+				handler.addObject(new SmartEnemy((Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_WIDTH), (Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_HEIGHT), ID.Enemy, handler));
+			}
+			
+			//levels to add a slow enemy
+			if(hud.getLevel() == 5) {
+				handler.addObject(new SlowEnemy((Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_WIDTH), (Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_HEIGHT), ID.SlowEnemy, handler));
 			}
 			
 			//levels to add a fast enemy
 			if(hud.getLevel() == 5 || hud.getLevel() == 6) {
-				handler.addObject(new FastEnemy(((r.nextFloat()- delta) * Constants.GAME_WIDTH), ((r.nextFloat() - delta) * Constants.GAME_HEIGHT), ID.Enemy, handler));
+				handler.addObject(new FastEnemy((Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_WIDTH), (Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_HEIGHT), ID.Enemy, handler));
 			}
 		}
 	}

@@ -7,8 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.util.Random;
 
 import enemy.BasicEnemy;
-import enemy.FastEnemy;
-import enemy.SmartEnemy;
+import enemy.SlowEnemy;
 import interfaces.HUD;
 import player.Player;
 import util.Constants;
@@ -33,18 +32,19 @@ public class Game extends Canvas implements Runnable {
 		spawner = new Spawn(handler, hud);
 		
 		this.addKeyListener(new KeyInput(handler));
+		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
+
 
 		//Add objects to the start of the game here.
 
 		handler.addObject(new Player((Constants.GAME_WIDTH / 2) - 16, (Constants.GAME_HEIGHT / 2) - 16, ID.Player, handler));
-		handler.addObject(new BasicEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
+		handler.addObject(new BasicEnemy((Math.abs(r.nextFloat() - Constants.DELTA )* Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 		/*
 		handler.addObject(new BasicEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 		handler.addObject(new FastEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 		handler.addObject(new SmartEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
 		*/
 		
-		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
 	}
 	
 	public void tick() {
