@@ -38,7 +38,7 @@ public class Spawn {
 			scoreKeep = 0;
 			hud.setLevel(hud.getLevel() + 1);
 			
-			
+			HUD.HEALTH += 10;
 			
 			//levels to add a basic enemy
 			if(hud.getLevel() == 2 || hud.getLevel() == 3 || hud.getLevel() == 5) {
