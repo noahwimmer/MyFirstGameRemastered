@@ -33,9 +33,7 @@ public class Spawn {
 		scoreKeep = 600;
 	}
 	
-	public void tick() {
-		scoreKeep++;
-		
+	public void updateSpawn() {
 		if(scoreKeep >= 600) {
 			scoreKeep = 0;
 			hud.setLevel(hud.getLevel() + 1);
@@ -61,6 +59,12 @@ public class Spawn {
 				handler.addObject(new FastEnemy((Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_WIDTH), (Math.abs(r.nextFloat() - Constants.DELTA) * Constants.GAME_HEIGHT), ID.Enemy, handler));
 			}
 		}
+	}
+	
+	public void tick() {
+		scoreKeep++;
+		
+		updateSpawn();
 	}
 	
 }

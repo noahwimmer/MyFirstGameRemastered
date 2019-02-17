@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable {
 		hud = new HUD();
 		spawner = new Spawn(handler, hud);
 		
-		this.addKeyListener(new KeyInput(handler));
+		this.addKeyListener(new KeyInput(handler, spawner));
 		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
 
 

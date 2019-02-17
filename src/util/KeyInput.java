@@ -12,10 +12,12 @@ public class KeyInput extends KeyAdapter{
 
 	private Game game;
 	private Handler handler;
+	private Spawn spawn;
 	private boolean[] keyDown = new boolean[4];
 	
-	public KeyInput(Handler handler) {
+	public KeyInput(Handler handler, Spawn spawn) {
 		this.handler = handler;
+		this.spawn = spawn;
 		
 		keyDown[0] = false;
 		keyDown[1] = false;
@@ -40,6 +42,9 @@ public class KeyInput extends KeyAdapter{
 				if(key == KeyEvent.VK_D) {tempObject.setVelX(+ 5); keyDown[3] = true;}
 				
 			}
+			
+			if(key == KeyEvent.VK_1) spawn.increaseLevel();
+			
 			
 			//Add more if-statements like above for more characters
 		}
