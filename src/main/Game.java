@@ -6,10 +6,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
 
-import enemy.BasicEnemy;
-import enemy.SlowEnemy;
 import interfaces.HUD;
-import player.Player;
+import interfaces.Menu;
 import util.Constants;
 import util.KeyInput;
 import util.Spawn;
@@ -19,39 +17,47 @@ public class Game extends Canvas implements Runnable {
 
 	private boolean running = false;
 	private Thread thread;
-	private Random r;
 	
 	private Handler handler;	
 	private HUD hud;
 	private Spawn spawner;
+	private Menu menu;
+	
+	public enum STATE {
+		Game,
+		Menu,
+		End,
+		Help;
+		
+	};
+	
+	public STATE gameState = STATE.Menu;
 	
 	public Game() {
-		r = new Random();
 		handler = new Handler();
 		hud = new HUD();
 		spawner = new Spawn(handler, hud);
+		menu = new Menu(this, handler, hud, spawner);
 		
 		this.addKeyListener(new KeyInput(handler, spawner));
-		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
+		this.addMouseListener(menu);
 
-
-		//Add objects to the start of the game here.
-
-		handler.addObject(new Player((Constants.GAME_WIDTH / 2) - 16, (Constants.GAME_HEIGHT / 2) - 16, ID.Player, handler));
-		handler.addObject(new BasicEnemy((Math.abs(r.nextFloat() - Constants.DELTA )* Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
-		/*
-		handler.addObject(new BasicEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
-		handler.addObject(new FastEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
-		handler.addObject(new SmartEnemy((r.nextFloat() * Constants.GAME_WIDTH), (r.nextFloat() * Constants.GAME_HEIGHT), ID.Enemy, handler));
-		*/
-		
+		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);		
 	}
 	
 	public void tick() {
 		handler.tick();
-		
-		hud.tick();
-		spawner.tick();
+		if (gameState == STATE.Game) {
+			spawner.tick();
+			hud.tick();
+		} else if (gameState == STATE.Menu || gameState == STATE.End) {
+			menu.tick();
+		}
+				
+		if(HUD.HEALTH < 1) {
+			handler.removeAll();
+			gameState = STATE.End;
+		}
 	}
 	
 	public void render() {
@@ -66,10 +72,16 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
 		
-		
 		handler.render(g);
+
+		if (gameState == STATE.Game) {
+			hud.render(g);
+		} else if (gameState == STATE.Help || gameState == STATE.Menu) {
+			menu.render(g);
+		}
 		
-		hud.render(g);
+		
+		
 				
 		g.dispose();
 		bs.show();
