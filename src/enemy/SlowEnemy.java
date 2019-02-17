@@ -1,8 +1,11 @@
 package enemy;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Timer;
 
+import main.Game;
 import main.GameObject;
 import main.Handler;
 import main.ID;
@@ -24,7 +27,6 @@ public class SlowEnemy extends GameObject{
 	}
 	
 	public void addBullets() {
-		handler.getToAdd().clear();
 		// Up and down bullets
 		handler.addToList(new SlowEnemyBullet(x + 6, y - 10, ID.SlowEnemyBullet, handler, 0 + velX, -1 + velY, this));
 		handler.addToList(new SlowEnemyBullet(x + 6, y + 23, ID.SlowEnemyBullet, handler, 0 + velX, 1 + velY, this));
