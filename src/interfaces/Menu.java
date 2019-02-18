@@ -28,6 +28,10 @@ public class Menu extends MouseAdapter {
 		this.handler = handler;
 		this.hud = hud;
 		this.spawn = spawn;
+		
+		for(int i = 0; i < 100;i++) {
+			handler.addObject(new MenuParticle(r.nextInt(Math.abs(Constants.GAME_WIDTH) - 30), r.nextInt(Math.abs(Constants.GAME_HEIGHT) - 50), ID.Enemy, handler));
+		}
 	}
 	
 	public void tick() {
@@ -93,9 +97,7 @@ public class Menu extends MouseAdapter {
 	public void mousePressed(MouseEvent e) {
 		int mx = e.getX();
 		int my = e.getY();
-		
-		System.out.println(mx);
-	
+			
 		if(game.gameState == Game.STATE.Menu) {
 			//play button
 			if(mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 20, 200, (Constants.GAME_HEIGHT /3), 64)) {
