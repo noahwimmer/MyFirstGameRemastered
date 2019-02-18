@@ -39,58 +39,53 @@ public class Menu extends MouseAdapter {
 	}
 	
 	public void render(Graphics g) {
-		
-	if(game.gameState == STATE.Menu) {
 		Font font = new Font("arial", 1, 75);
 		Font font2 = new Font("arial", 1, 30);
 		
-		g.setFont(font);
-		g.setColor(Color.white);
-		g.drawString("Wave", 245, 135);
+		if(game.gameState == STATE.Menu) {
+			g.setFont(font);
+			g.setColor(Color.white);
+			g.drawString("Wave", 245, 135);
+			
+			g.setFont(font2);
+			g.drawString("Play", 309, 240);
+			g.drawRect((Constants.GAME_WIDTH / 3) + 20, 200, (Constants.GAME_HEIGHT /3), 64);
+			
+			g.drawString("Help", 309, 340);
+			g.drawRect((Constants.GAME_WIDTH / 3) + 20, 300, (Constants.GAME_HEIGHT) / 3, 64);
+			
+			g.drawString("Quit", 309, 440);
+			g.drawRect((Constants.GAME_WIDTH / 3) + 20, 400, (Constants.GAME_HEIGHT /3), 64);
+		}
 		
-		g.setFont(font2);
-		g.drawString("Play", 309, 240);
-		g.drawRect((Constants.GAME_WIDTH / 3) + 20, 200, (Constants.GAME_HEIGHT /3), 64);
+		if(game.gameState == STATE.Help) {
+			g.setFont(font);
+			g.setColor(Color.white);
+			g.drawString("How to Play", 140, 100);
+			
+			g.setFont(font2);
+			g.drawString("Press the WASD keys to move around and", 30,200);
+			g.drawString("dodge enemies. You get 10 health at the end", 30, 230);
+			g.drawString("of every round.", 30, 260);
+			
+			g.setFont(font2);
+			g.drawString("Back", 315, 440);
+			g.drawRect((Constants.GAME_WIDTH / 3) + 5, 400, (Constants.GAME_WIDTH /3), 64);
+		}
 		
-		g.drawString("Help", 309, 340);
-		g.drawRect((Constants.GAME_WIDTH / 3) + 20, 300, (Constants.GAME_HEIGHT) / 3, 64);
-		
-		g.drawString("Quit", 309, 440);
-		g.drawRect((Constants.GAME_WIDTH / 3) + 20, 400, (Constants.GAME_HEIGHT /3), 64);
-	} else if(game.gameState == STATE.Help) {
-		Font font = new Font("arial", 1, 75);
-		Font font2 = new Font("arial", 1 , 30);		
-		
-		g.setFont(font);
-		g.setColor(Color.white);
-		g.drawString("How to Play", 140, 100);
-		
-		g.setFont(font2);
-		g.drawString("Press the WASD keys to move around and", 30,200);
-		g.drawString("dodge enemies. You get 10 health at the end", 30, 230);
-		g.drawString("of every round.", 30, 260);
-		
-		g.setFont(font2);
-		g.drawString("Back", 315, 440);
-		g.drawRect((Constants.GAME_WIDTH / 3) + 5, 400, (Constants.GAME_WIDTH /3), 64);
-		
-		
-	}  else if(game.gameState == STATE.End) {
-		Font font = new Font("arial", 1, 75);
-		Font font2 = new Font("arial", 1 , 30);		
-		
-		g.setFont(font);
-		g.setColor(Color.white);
-		g.drawString("Game Over", 50, 100);
-		
-		g.setFont(font2);
-		g.drawString("You died with a score of: " + HUD.getScore(), 100, 200);
-		
-		g.setFont(font2);
-		g.drawString("Try Again", 720, 840);
-		g.drawRect((Constants.GAME_WIDTH / 3) + 20, 800, (Constants.GAME_WIDTH /3), 64);
-		
-		
+		if(game.gameState == STATE.End) {	
+			g.setFont(font);
+			g.setColor(Color.red);
+			g.drawString("Game Over", 145, 100);
+			
+			g.setColor(Color.WHITE);
+			g.setFont(font2);
+			g.drawString("Score: " + HUD.getScore(), 280, 170);
+			g.drawString("High Score: " + hud.getHighScore(), 246, 220);
+			
+			g.setFont(font2);
+			g.drawString("Try Again", 280, 440);
+			g.drawRect(200, 400, 300, 64);
 	}
 	
 }
@@ -130,11 +125,13 @@ public class Menu extends MouseAdapter {
 		}
 		
 		if(game.gameState == STATE.End) {
-			if(mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 20, 800, (Constants.GAME_WIDTH /3), 6)) {
+			if(mouseOver(mx, my, 200, 400, 300, 64)) {
 				HUD.HEALTH = 100;
 				handler.removeAll();
 				handler.removePlayer();
 				spawn.setScoreKeep(0);
+				HUD.score = 0;
+				hud.setLevel(1);
 				game.gameState = STATE.Game;
 				handler.addObject(new Player((Constants.GAME_WIDTH/2), (Constants.GAME_HEIGHT/2), ID.Player, handler));
 				handler.addObject(new BasicEnemy((r.nextInt(Constants.GAME_WIDTH)), (r.nextInt(Constants.GAME_HEIGHT)), ID.Enemy, handler));

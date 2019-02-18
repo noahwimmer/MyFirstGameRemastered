@@ -32,9 +32,13 @@ public class Game extends Canvas implements Runnable {
 	
 	public STATE gameState = STATE.Menu;
 	
+	public void setGameState(STATE state) {
+		this.gameState = state;
+	}
+	
 	public Game() {
 		handler = new Handler();
-		hud = new HUD();
+		hud = new HUD(this, handler);
 		spawner = new Spawn(handler, hud);
 		menu = new Menu(this, handler, hud, spawner);
 		
@@ -49,14 +53,8 @@ public class Game extends Canvas implements Runnable {
 		if (gameState == STATE.Game) {
 			spawner.tick();
 			hud.tick();
-		} else if (gameState == STATE.Menu || gameState == STATE.End) {
-			menu.tick();
-		}
-				
-		if(HUD.HEALTH < 1) {
-			handler.removeAll();
-			gameState = STATE.End;
-		}
+		} 
+		menu.tick();
 	}
 	
 	public void render() {
@@ -75,7 +73,7 @@ public class Game extends Canvas implements Runnable {
 
 		if (gameState == STATE.Game) {
 			hud.render(g);
-		} else if (gameState == STATE.Help || gameState == STATE.Menu) {
+		} else if (gameState == STATE.Help || gameState == STATE.Menu || gameState == STATE.End) {
 			menu.render(g);
 		}
 		
