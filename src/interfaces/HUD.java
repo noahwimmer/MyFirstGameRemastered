@@ -78,6 +78,7 @@ public class HUD {
 			}
 			if(score > Integer.parseInt(highScore)) {
 				try {
+					highScore = score + "";
 					writeToFile(score + "");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

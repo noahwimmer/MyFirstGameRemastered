@@ -1,5 +1,7 @@
 package main;
 
+//TODO -- Reset local high score data before release
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -21,7 +23,8 @@ public class Game extends Canvas implements Runnable {
 	private HUD hud;
 	private Spawn spawner;
 	private Menu menu;
-	
+	public STATE gameState = STATE.Menu;
+
 	public enum STATE {
 		Game,
 		Menu,
@@ -29,13 +32,7 @@ public class Game extends Canvas implements Runnable {
 		Help;
 		
 	};
-	
-	public STATE gameState = STATE.Menu;
-	
-	public void setGameState(STATE state) {
-		this.gameState = state;
-	}
-	
+		
 	public Game() {
 		handler = new Handler();
 		hud = new HUD(this, handler);
@@ -76,9 +73,6 @@ public class Game extends Canvas implements Runnable {
 		} else if (gameState == STATE.Help || gameState == STATE.Menu || gameState == STATE.End) {
 			menu.render(g);
 		}
-		
-		
-		
 				
 		g.dispose();
 		bs.show();
@@ -139,6 +133,10 @@ public class Game extends Canvas implements Runnable {
 		else {
 			return var;
 		}
+	}
+	
+	public void setGameState(STATE state) {
+		this.gameState = state;
 	}
 	
 	public static void main(String[] args) {
