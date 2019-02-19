@@ -16,6 +16,7 @@ import util.Spawn;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = -7071532049979466544L;
 
+	private static boolean lock60 = false;
 	private boolean running = false;
 	private Thread thread;
 	
@@ -110,6 +111,13 @@ public class Game extends Canvas implements Runnable {
 			while(delta >= 1) {
 				tick();
 				delta--;
+				if(lock60) {
+					render();
+					frames++;
+				}
+			}
+			
+			if(running && !lock60) {
 				render();
 				frames++;
 			}
@@ -137,6 +145,14 @@ public class Game extends Canvas implements Runnable {
 	
 	public void setGameState(STATE state) {
 		this.gameState = state;
+	}
+	
+	public boolean getLock60() {
+		return lock60;
+	}
+	
+	public void setLock60(boolean b) {
+		lock60 = b;
 	}
 	
 	public static void main(String[] args) {

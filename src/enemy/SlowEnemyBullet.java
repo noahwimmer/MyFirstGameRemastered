@@ -34,7 +34,7 @@ public class SlowEnemyBullet extends GameObject {
 	
 		if(count >= distance) {
 			distance = 0;
-			handler.addTrash(this);
+			handler.removeObject(this);
 			handler.getToAdd().clear();
 			slowEnemy.addBullets();
 		}

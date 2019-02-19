@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import enemy.Trail;
 import main.Game;
 import main.GameObject;
 import main.Handler;
@@ -43,6 +44,7 @@ public class MenuParticle extends GameObject {
 		if(y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
 		if(x <= 0 || x >= Constants.GAME_WIDTH - 16) velX *= -1;
 	
+		handler.addObject(new Trail(x, y, ID.Enemy, color, 16,16, .22f, handler));
 	}
 
 	public void render(Graphics g) {
