@@ -32,14 +32,16 @@ public class Handler {
 	}
 
 	public void tick() {
-		for(GameObject tempObject : object) {
+		for(int i = 0; i < object.size(); i++) {
+			GameObject tempObject = object.get(i);
+			
 			tempObject.tick();
 		}
 		// this is such a pretty for loop and so simple i love it. (I thought i'd like to remember this moment
 		for(int j = 0; j < 1; j++) {
 			for(int i = 0; i < toDispose.size(); i ++) {
 			object.remove(toDispose.get(i));
-		}
+			}
 		}
 		
 		
@@ -55,7 +57,9 @@ public class Handler {
 	}
 	
 	public void render(Graphics g) {
-		for(GameObject tempObject : object) {
+		for(int i = 0; i < object.size(); i++) {
+			GameObject tempObject = object.get(i);
+			
 			tempObject.render(g);
 		}
 	}

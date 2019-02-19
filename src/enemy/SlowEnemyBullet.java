@@ -16,30 +16,30 @@ public class SlowEnemyBullet extends GameObject {
 	private SlowEnemy slowEnemy;
 	
 	private int count  = 0;
+	private int distance = 45;
+	private boolean b;
 
-	public SlowEnemyBullet(float x, float y, ID id, Handler handler, float velX, float velY, SlowEnemy slowEnemy) {
+	public SlowEnemyBullet(float x, float y, ID id, Handler handler, float velX, float velY, SlowEnemy slowEnemy, boolean b) {
 		super(x, y, id);
 		this.handler = handler;
 		this.velX = velX;
 		this.velY = velY;
 		this.slowEnemy = slowEnemy;
+		this.b = b;
 	}
 
 	@Override
 	public void tick() {
 		x += velX;
 		y += velY;
-		
-		int distance = 40;
-	
-		if(count >= distance) {
-			distance = 0;
-			handler.addTrash(this);
-			handler.getToAdd().clear();
+			
+		if(count >= distance && b) {
 			slowEnemy.addBullets();
 		}
+		if(count >= distance) handler.removeObject(this);
+
 		
-		if(y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
+		if(y <= 0 || y >= Constants.GAME_HEIGHT - 40) velY *= -1;
 		if(x <= 0 || x >= Constants.GAME_WIDTH - 30) velX *= -1;
 		
 		count++;
