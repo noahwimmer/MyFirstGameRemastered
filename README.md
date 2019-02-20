@@ -14,3 +14,6 @@ see https://github.com/datWaffle21/MyFirstGameRemastered/blob/master/LICENSE
 
 # Code of Conduct
 see https://github.com/datWaffle21/MyFirstGameRemastered/blob/master/CODE_OF_CONDUCT.md
+
+# This Branch
+This is a branch made to specifically show off a cool visual glitch/bug that i fixed in master. It was caused by having 8 object execute the same command instead of only one of them. Which would over load the memory because there would be 8 to the power of the iteration object running on the handler. Which is very bad. 
