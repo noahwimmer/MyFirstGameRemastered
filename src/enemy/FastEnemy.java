@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import interfaces.Menu;
 import main.GameObject;
 import main.Handler;
 import main.ID;
@@ -14,10 +15,12 @@ public class FastEnemy extends GameObject {
 	
 	private Handler handler;
 	private Random r;
+	private Menu menu;
 
-	public FastEnemy(float x, float y, ID id, Handler handler) {
+	public FastEnemy(float x, float y, ID id, Handler handler, Menu menu) {
 		super(x, y, id);
 		this.handler = handler;
+		this.menu = menu;
 		r = new Random();
 		
 		velX = (r.nextFloat() * 5f) + 3f;
@@ -34,7 +37,9 @@ public class FastEnemy extends GameObject {
 		if(y <= 0 || y >= Constants.GAME_HEIGHT - 40) velY *= -1;
 		if(x <= 0 || x >= Constants.GAME_WIDTH - 16) velX *= -1;
 		
-		//TODO add trail here eventually
+		if(menu.getOptions()[0]) {
+			handler.addObject(new Trail(x, y, ID.Trail, Color.cyan, 16, 16, Constants.DECAY, handler));
+		}
 	}
 
 	@Override

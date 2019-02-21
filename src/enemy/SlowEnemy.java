@@ -1,11 +1,9 @@
 package enemy;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.Timer;
 
-import main.Game;
+import interfaces.Menu;
 import main.GameObject;
 import main.Handler;
 import main.ID;
@@ -14,10 +12,12 @@ import util.Constants;
 public class SlowEnemy extends GameObject{
 	
 	private Handler handler;
+	private Menu menu;
 
-	public SlowEnemy(float x, float y, ID id, Handler handler) {
+	public SlowEnemy(float x, float y, ID id, Handler handler, Menu menu) {
 		super(x, y, id);
 		this.handler = handler;
+		this.menu = menu;
 		
 
 		velX = .1f;
@@ -28,20 +28,20 @@ public class SlowEnemy extends GameObject{
 	
 	public void addBullets() {
 		// Up and down bullets
-		handler.addObject(new SlowEnemyBullet(x + 6, y - 10, ID.SlowEnemyBullet, handler, 0 + velX, -1 + velY, this, true));
-		handler.addObject(new SlowEnemyBullet(x + 6, y + 23, ID.SlowEnemyBullet, handler, 0 + velX, 1 + velY, this, false));
+		handler.addObject(new SlowEnemyBullet(x + 6, y - 10, ID.SlowEnemyBullet, handler, 0 + velX, -1 + velY, this, true, menu));
+		handler.addObject(new SlowEnemyBullet(x + 6, y + 23, ID.SlowEnemyBullet, handler, 0 + velX, 1 + velY, this, false, menu));
 		
 		// left and right bullets
-		handler.addObject(new SlowEnemyBullet(x + 23, y + 7, ID.SlowEnemyBullet, handler, 1 + velX, 0 + velY, this, false));
-		handler.addObject(new SlowEnemyBullet(x - 10, y + 7, ID.SlowEnemyBullet, handler, -1, 0 + velY, this, false));
+		handler.addObject(new SlowEnemyBullet(x + 23, y + 7, ID.SlowEnemyBullet, handler, 1 + velX, 0 + velY, this, false, menu));
+		handler.addObject(new SlowEnemyBullet(x - 10, y + 7, ID.SlowEnemyBullet, handler, -1, 0 + velY, this, false, menu));
 		
 		// Top diagonal bullets
-		handler.addObject(new SlowEnemyBullet(x - 10, y - 10, ID.SlowEnemyBullet, handler, -1 + velX, -1 + velY, this, false));
-		handler.addObject(new SlowEnemyBullet(x + 23, y - 10, ID.SlowEnemyBullet, handler, 1 + velX, -1 + velY, this, false));
+		handler.addObject(new SlowEnemyBullet(x - 10, y - 10, ID.SlowEnemyBullet, handler, -1 + velX, -1 + velY, this, false, menu));
+		handler.addObject(new SlowEnemyBullet(x + 23, y - 10, ID.SlowEnemyBullet, handler, 1 + velX, -1 + velY, this, false, menu));
 		
 		//bottom diagonal bullets
-		handler.addObject(new SlowEnemyBullet(x + 23, y + 23, ID.SlowEnemyBullet, handler, 1 + velX, 1 + velY, this, false));
-		handler.addObject(new SlowEnemyBullet(x - 10, y + 23, ID.SlowEnemyBullet, handler, -1 + velX, 1 + velY, this, false));
+		handler.addObject(new SlowEnemyBullet(x + 23, y + 23, ID.SlowEnemyBullet, handler, 1 + velX, 1 + velY, this, false, menu));
+		handler.addObject(new SlowEnemyBullet(x - 10, y + 23, ID.SlowEnemyBullet, handler, -1 + velX, 1 + velY, this, false, menu));
 	}
 
 	@Override

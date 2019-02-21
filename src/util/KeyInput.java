@@ -2,7 +2,10 @@ package util;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
+import interfaces.Menu;
+import interfaces.MenuParticle;
 import main.Game;
 import main.GameObject;
 import main.Handler;
@@ -13,11 +16,15 @@ public class KeyInput extends KeyAdapter{
 	private Game game;
 	private Handler handler;
 	private Spawn spawn;
+	private Menu menu;
+	private Random r = new Random();
 	private boolean[] keyDown = new boolean[4];
 	
-	public KeyInput(Handler handler, Spawn spawn) {
+	public KeyInput(Handler handler, Spawn spawn, Game game, Menu menu) {
 		this.handler = handler;
 		this.spawn = spawn;
+		this.game = game;
+		this.menu = menu;
 		
 		keyDown[0] = false;
 		keyDown[1] = false;
@@ -28,7 +35,18 @@ public class KeyInput extends KeyAdapter{
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
-		if(key == KeyEvent.VK_ESCAPE) System.exit(1);
+		if(key == KeyEvent.VK_ESCAPE && !(game.gameState == Game.STATE.Options)) {
+			game.lastState = game.gameState;
+			game.gameState = Game.STATE.Options;
+		} else if(key == KeyEvent.VK_ESCAPE && game.gameState == Game.STATE.Options) {
+			if(game.lastState == null) {
+				game.gameState = Game.STATE.Menu;
+				for(int i = 0; i < 100;i++) {
+					handler.addObject(new MenuParticle((Math.abs((r.nextFloat() - Constants.DELTA)) * Constants.GAME_WIDTH), (Math.abs((r.nextFloat() - Constants.DELTA)) * Constants.GAME_HEIGHT), ID.Enemy, handler, menu));
+				}
+			}
+			else game.gameState = game.lastState;
+		}
 		
 		for(int i = 0; i < handler.getObject().size(); i++) {
 			

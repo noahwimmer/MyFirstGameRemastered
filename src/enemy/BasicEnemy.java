@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import interfaces.Menu;
 import main.Game;
 import main.GameObject;
 import main.Handler;
@@ -18,10 +19,12 @@ public class BasicEnemy extends GameObject {
 	
 	private Handler handler;
 	private Random r;
+	private Menu menu;
 
-	public BasicEnemy(float x, float y, ID id, Handler handler) {
+	public BasicEnemy(float x, float y, ID id, Handler handler, Menu menu) {
 		super(x, y, id);
 		this.handler = handler;
+		this.menu = menu;
 		r = new Random();
 		
 		velX = (r.nextFloat() * 2.9f) + 1.333f;
@@ -38,9 +41,9 @@ public class BasicEnemy extends GameObject {
 		if(y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
 		if(x <= 0 || x >= Constants.GAME_WIDTH - 30) velX *= -1;
 		
-		// makes the toAdd list in handler too big and slows down the game D:
-		// comment adding trail for temp fix for slowing game
-		//handler.addToList(new Trail(x, y, ID.Trail, Color.red, 24, 24, 0.26f, handler));
+		if(menu.getOptions()[0]) {
+			handler.addObject(new Trail(x, y, ID.Trail, Color.red, 24, 24, Constants.DECAY, handler));
+		}
 		
 	}
 

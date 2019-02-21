@@ -1,6 +1,8 @@
 package main;
 
 //TODO -- Reset local high score data before release
+//TODO -- Add images for options
+//TODO -- make local data for saving options... hard cause i have to learn more about the buffered reader and writer :/
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -16,7 +18,7 @@ import util.Spawn;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = -7071532049979466544L;
 
-	private static boolean lock60 = false;
+	public static boolean lock60 = false;
 	private boolean running = false;
 	private Thread thread;
 	
@@ -24,35 +26,47 @@ public class Game extends Canvas implements Runnable {
 	private HUD hud;
 	private Spawn spawner;
 	private Menu menu;
-	public STATE gameState = STATE.Menu;
+	public STATE gameState = STATE.Options;
+	public STATE lastState;
 
 	public enum STATE {
 		Game,
+		Options,
 		Menu,
 		End,
 		Help;
 		
 	};
+	
+	public Menu getMenu() {
+		try {
+			return menu;
+		} catch (NullPointerException e) {
+			throw new NullPointerException();
+		}
+	}
 		
 	public Game() {
 		handler = new Handler();
 		hud = new HUD(this, handler);
-		spawner = new Spawn(handler, hud);
+		spawner = new Spawn(handler, hud, this);
 		menu = new Menu(this, handler, hud, spawner);
 		
-		this.addKeyListener(new KeyInput(handler, spawner));
+		this.addKeyListener(new KeyInput(handler, spawner, this, menu));
 		this.addMouseListener(menu);
 
 		new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);		
 	}
 	
 	public void tick() {
-		handler.tick();
+		if(!(gameState == STATE.Options)) {
+			handler.tick();
+			menu.tick();
+		}
 		if (gameState == STATE.Game) {
 			spawner.tick();
 			hud.tick();
 		} 
-		menu.tick();
 	}
 	
 	public void render() {
@@ -71,7 +85,7 @@ public class Game extends Canvas implements Runnable {
 
 		if (gameState == STATE.Game) {
 			hud.render(g);
-		} else if (gameState == STATE.Help || gameState == STATE.Menu || gameState == STATE.End) {
+		} else if (gameState == STATE.Help || gameState == STATE.Menu || gameState == STATE.End || gameState == STATE.Options) {
 			menu.render(g);
 		}
 				
