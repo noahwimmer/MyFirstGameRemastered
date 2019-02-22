@@ -21,6 +21,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean lock60 = false;
 	private boolean running = false;
 	private Thread thread;
+	private int showFrames;
 	
 	private Handler handler;	
 	private HUD hud;
@@ -37,6 +38,10 @@ public class Game extends Canvas implements Runnable {
 		Help;
 		
 	};
+	
+	public int getShowFrames() {
+		return showFrames;
+	}
 	
 	public Menu getMenu() {
 		try {
@@ -139,6 +144,7 @@ public class Game extends Canvas implements Runnable {
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				System.out.println("FPS: " + frames);
+				showFrames = frames;
 				frames = 0;
 			}
 		}

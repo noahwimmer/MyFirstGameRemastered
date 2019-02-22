@@ -3,6 +3,8 @@ package interfaces;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
@@ -22,8 +24,12 @@ public class Menu extends MouseAdapter {
 	private Handler handler;
 	private HUD hud;
 	private Spawn spawn;
+	private boolean showFPS = false;
 	
 	private boolean[] options = new boolean[3];
+	private boolean[] showOptions = new boolean[1];
+	
+	int mx, my;
 	
 	public boolean[] getOptions() {
 		return options;
@@ -39,6 +45,8 @@ public class Menu extends MouseAdapter {
 		options[1] = false;
 		options[2] = false;
 		
+		showOptions[0] = false;
+		
 		if(game.gameState == Game.STATE.Menu) {
 			for(int i = 0; i < 100;i++) {
 			handler.addObject(new MenuParticle(r.nextInt(Math.abs(Constants.GAME_WIDTH) - 30), r.nextInt(Math.abs(Constants.GAME_HEIGHT) - 50), ID.Enemy, handler, this));
@@ -48,8 +56,19 @@ public class Menu extends MouseAdapter {
 	}
 	
 	public void tick() {
+		Point cursor = MouseInfo.getPointerInfo().getLocation();
+		mx = cursor.x;
+		my = cursor.y;
 		
+		if(mouseOver(mx, my, 18, 80, 195, 63)) {
+			showOptions[1] = true;
+		} else {
+			showOptions[1] = false;
+		}
 	}
+	
+	//TODO -- finish the option hint rendering
+	//TODO -- Already have the images just need to read them and add the rendering :p
 	
 	public void render(Graphics g) {
 		Font bigFont = new Font("arial", 1, 75);
@@ -129,6 +148,12 @@ public class Menu extends MouseAdapter {
 			}
 			
 			// TODO check mark for option 2
+			if(options[1]) {
+				g.setColor(Color.BLUE);
+				g.setFont(new Font("ariel", 1, 60));
+				// \u2713 is a checkmark in unicode :)
+				g.drawString("\u2713", 155, 190);
+			}
 			
 			// check mark for option 3
 			if(options[2]) {
@@ -147,10 +172,18 @@ public class Menu extends MouseAdapter {
 			g.drawRect(160, 205, 40, 40);
 
 		}
+
+		//renders the frames
+		if(options[1]) {
+			g.setFont(new Font("arial", 1, 20));
+			g.setColor(Color.WHITE);
+			g.drawString(game.getShowFrames() + "", 5, 20);
+		}
+		
 	}
 	public void mousePressed(MouseEvent e) {
-		int mx = e.getX();
-		int my = e.getY();
+		mx = e.getX();
+		my = e.getY();
 			
 		if(game.gameState == Game.STATE.Menu) {
 			//play button
@@ -208,7 +241,13 @@ public class Menu extends MouseAdapter {
 			
 			//TODO
 			// on / off for option 2
-			
+			if(mouseOver(mx, my,160, 150, 40, 40) && !options[1]) {
+				options[1] = true;
+				showFPS = true;
+			} else if(mouseOver(mx, my,160, 150, 40, 40) && options[1]) {
+				options[1] = false;
+				showFPS = false;
+			}
 			// on / off for option 3
 			if(mouseOver(mx, my, 160, 205, 40, 40) && !options[2]) {
 				options[2] = true;
