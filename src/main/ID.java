@@ -6,6 +6,6 @@ public enum ID {
 	Enemy(),
 	SlowEnemy(),
 	SlowEnemyBullet(),
-	Trail();
-	
+	Trail()
+
 }
