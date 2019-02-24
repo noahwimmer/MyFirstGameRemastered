@@ -1,14 +1,5 @@
 package interfaces;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Random;
-
 import enemy.BasicEnemy;
 import main.Game;
 import main.Game.STATE;
@@ -18,6 +9,14 @@ import player.Player;
 import util.Constants;
 import util.Spawn;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.Random;
+
 public class Menu extends MouseAdapter {
 	private Random r = new Random();
 	private Game game; 
@@ -25,55 +24,78 @@ public class Menu extends MouseAdapter {
 	private HUD hud;
 	private Spawn spawn;
 	private boolean showFPS = false;
-	
+
+	private Image trails;
+	private Image noTrails;
+
+
 	private boolean[] options = new boolean[3];
 	private boolean[] showOptions = new boolean[1];
-	
-	int mx, my;
-	
-	public boolean[] getOptions() {
-		return options;
-	}
-	
+
+	private int mx, my;
+
 	public Menu(Game game, Handler handler, HUD hud, Spawn spawn) {
 		this.game = game;
 		this.handler = handler;
 		this.hud = hud;
 		this.spawn = spawn;
-		
-		options[0] = false;
-		options[1] = false;
-		options[2] = false;
-		
-		showOptions[0] = false;
-		
+
+		try {
+			trails = ImageIO.read(new File("res/Options/imgAssets/trails.PNG"));
+			noTrails = ImageIO.read(new File("res/Options/imgAssets/noTrails.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Sets all of the options pre-defined to false
+		for (int i = 0; i < options.length; i++) {
+			options[i] = false;
+		}
+		for (int i = 0; i < showOptions.length; i++) {
+			showOptions[i] = false;
+		}
+
 		if(game.gameState == Game.STATE.Menu) {
 			for(int i = 0; i < 100;i++) {
 			handler.addObject(new MenuParticle(r.nextInt(Math.abs(Constants.GAME_WIDTH) - 30), r.nextInt(Math.abs(Constants.GAME_HEIGHT) - 50), ID.Enemy, handler, this));
 			}
 		}
-		
+
 	}
-	
+
+	/**
+	 * @return options boolean array
+	 */
+	public boolean[] getOptions() {
+		return options;
+	}
+
 	public void tick() {
 		Point cursor = MouseInfo.getPointerInfo().getLocation();
+		SwingUtilities.convertPointFromScreen(cursor, game);
 		mx = cursor.x;
 		my = cursor.y;
-		
-		if(mouseOver(mx, my, 18, 80, 195, 63)) {
-			showOptions[1] = true;
-		} else {
-			showOptions[1] = false;
-		}
+
+		showOptions[0] = mouseOver(mx, my, 18, 80, 195, 63);
 	}
-	
-	//TODO -- finish the option hint rendering
-	//TODO -- Already have the images just need to read them and add the rendering :p
-	
+
+	/**
+	 *
+	 * @param g Graphics Component
+	 */
 	public void render(Graphics g) {
-		Font bigFont = new Font("arial", 1, 75);
-		Font smallFont = new Font("arial", 1, 30);		
-		Font smallerFont = new Font("arial", 1, 20);
+		String backArrow = "←";
+		/*
+		 *
+		 * Styles:
+		 * 	0 = Plain
+		 *  	1 = Bold
+		 *  	2 = Italics
+		 *
+		 */
+		Font bigFont = new Font("arial", Font.BOLD, 75);
+		Font smallFont = new Font("arial", Font.BOLD, 30);
+		Font smallerFont = new Font("arial", Font.BOLD, 20);
 		
 		if(game.gameState == STATE.Menu) {
 			g.setFont(bigFont);
@@ -121,7 +143,7 @@ public class Menu extends MouseAdapter {
 		}
 		
 		if(game.gameState == STATE.Options) {
-			//gray backdrop {
+			//gray backdrop
 			g.setColor(new Color(0,0,0,200));
 			g.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
 			//Heading
@@ -131,7 +153,7 @@ public class Menu extends MouseAdapter {
 			g.drawString("Options", 30, 50);
 			
 			//back arrow
-			g.drawString("\u2190", 630, 40);
+			g.drawString(backArrow, 630, 40);
 			g.drawRect(610, 10, 70, 50);
 			
 			//Options
@@ -142,41 +164,51 @@ public class Menu extends MouseAdapter {
 			// check mark for option 1
 			if(options[0]) {
 				g.setColor(Color.BLUE);
-				g.setFont(new Font("ariel", 1, 60));
+				g.setFont(new Font("ariel", Font.BOLD, 60));
 				// \u2713 is a checkmark in unicode :)
-				g.drawString("\u2713", 155, 130);
+				g.drawString("\u2713", 155, 135);
 			}
-			
-			// TODO check mark for option 2
-			if(options[1]) {
-				g.setColor(Color.BLUE);
-				g.setFont(new Font("ariel", 1, 60));
-				// \u2713 is a checkmark in unicode :)
-				g.drawString("\u2713", 155, 190);
-			}
-			
-			// check mark for option 3
-			if(options[2]) {
-				g.setColor(Color.BLUE);
-				g.setFont(new Font("ariel", 1, 60));
-				// \u2713 is a checkmark in unicode :)
-				g.drawString("\u2713", 155, 245);
-			}
-			
+
 			g.setColor(Color.WHITE);
 			g.setFont(smallerFont);
 			g.drawString("Show FPS", 30, 178);
 			g.drawRect(160, 150, 40, 40);
-			
+
+			if(options[1]) {
+				g.setColor(Color.BLUE);
+				g.setFont(new Font("ariel", Font.BOLD, 60));
+				g.drawString("\u2713", 155, 190);
+			}
+
+			g.setFont(smallerFont);
+			g.setColor(Color.WHITE);
 			g.drawString("Limit FPS", 30, 236);
 			g.drawRect(160, 205, 40, 40);
+
+			// check mark for option 3
+			if(options[2]) {
+				g.setColor(Color.BLUE);
+				g.setFont(new Font("ariel", Font.BOLD, 60));
+				// \u2713 is a checkmark in unicode :)
+				g.drawString("\u2713", 155, 245);
+			}
+
+			if (showOptions[0] && options[0]) {
+				g.setFont(new Font("arial", Font.PLAIN, 20));
+				g.drawString("On", 325, 120);
+				g.drawImage(trails, 325, 120, null);
+			} else if (showOptions[0] && !options[0]) {
+				g.setFont(new Font("arial", Font.PLAIN, 20));
+				g.drawString("Off", 325, 120);
+				g.drawImage(noTrails, 325, 120, null);
+			}
 
 		}
 
 		//renders the frames
 		if(options[1]) {
-			g.setFont(new Font("arial", 1, 20));
-			g.setColor(Color.WHITE);
+			g.setFont(new Font("arial", Font.PLAIN, 20));
+			g.setColor(Color.MAGENTA);
 			g.drawString(game.getShowFrames() + "", 5, 20);
 		}
 		
@@ -190,7 +222,7 @@ public class Menu extends MouseAdapter {
 			if(mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 20, 200, (Constants.GAME_HEIGHT /3), 64)) {
 				handler.removeAll();
 				game.gameState = Game.STATE.Game;
-				handler.addObject(new Player((Constants.GAME_WIDTH/2), (Constants.GAME_HEIGHT/2), ID.Player, handler));
+				handler.addObject(new Player((Constants.GAME_WIDTH / 2.0f), (Constants.GAME_HEIGHT / 2.0f), ID.Player, handler));
 				handler.addObject(new BasicEnemy((r.nextInt(Constants.GAME_WIDTH)), (r.nextInt(Constants.GAME_HEIGHT)), ID.Enemy, handler, this));
 			}
 			
@@ -209,11 +241,10 @@ public class Menu extends MouseAdapter {
 		 
 		if(game.gameState == STATE.Help) {
 			//back button for help
-			if(game.gameState == STATE.Help) {
-				if(mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 5, 400, (Constants.GAME_WIDTH /3), 64))
+			if (mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 5, 400, (Constants.GAME_WIDTH / 3), 64)) {
 				game.gameState = STATE.Menu;
 				return;
-			} 
+			}
 		}
 		
 		if(game.gameState == STATE.End) {
@@ -225,7 +256,7 @@ public class Menu extends MouseAdapter {
 				HUD.score = 0;
 				hud.setLevel(1);
 				game.gameState = STATE.Game;
-				handler.addObject(new Player((Constants.GAME_WIDTH/2), (Constants.GAME_HEIGHT/2), ID.Player, handler));
+				handler.addObject(new Player((Constants.GAME_WIDTH / 2.0f), (Constants.GAME_HEIGHT / 2.0f), ID.Player, handler));
 				handler.addObject(new BasicEnemy((r.nextInt(Constants.GAME_WIDTH)), (r.nextInt(Constants.GAME_HEIGHT)), ID.Enemy, handler, this));
 			}
 			
@@ -276,11 +307,7 @@ public class Menu extends MouseAdapter {
 	
 	private boolean mouseOver(int mx, int my, int x, int y, int width, int height) {
 		if(mx > x && mx < x + width) {
-			if(my > y && my < y + height) {
-				return true;
-			}else {
-				return false;
-			}
+			return my > y && my < y + height;
 		}else {
 			return false;
 		}

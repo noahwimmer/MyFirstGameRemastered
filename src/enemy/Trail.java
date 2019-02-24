@@ -1,14 +1,10 @@
 package enemy;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-
 import main.GameObject;
 import main.Handler;
 import main.ID;
+
+import java.awt.*;
 
 public class Trail extends GameObject {
 	
@@ -19,9 +15,19 @@ public class Trail extends GameObject {
 	private Color color;
 	
 	private int width, height;
-	
-	//life = 0.001 - 0.1
 
+	/**
+	 * Constructor for a new Trail
+	 *
+	 * @param x       x position of the trail
+	 * @param y       y position of the trail
+	 * @param id      Use ID.Trail
+	 * @param color   Color of the trail
+	 * @param width   Width of the trail
+	 * @param height  Height of the Trail
+	 * @param life    How long it lives
+	 * @param handler Handler component
+	 */
 	public Trail(float x, float y, ID id, Color color, int width, int height, float life, Handler handler) {
 		super(x, y, id);
 		

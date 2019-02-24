@@ -1,14 +1,12 @@
 package enemy;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-
 import interfaces.Menu;
 import main.GameObject;
 import main.Handler;
 import main.ID;
 import util.Constants;
+
+import java.awt.*;
 
 public class SlowEnemyBullet extends GameObject {
 	
@@ -20,6 +18,17 @@ public class SlowEnemyBullet extends GameObject {
 	private int distance = 45;
 	private boolean b;
 
+	/**
+	 * @param x         X position of spawn location
+	 * @param y         Y position of spawn location
+	 * @param id        <code>ID</code> of object
+	 * @param handler   <code>Handler</code> component
+	 * @param velX      Velocity in the X direction
+	 * @param velY      Velocity in the Y direction
+	 * @param slowEnemy <code>SlowEnemy</code> component
+	 * @param b         Sets a boolean flag
+	 * @param menu      <code>Menu</code> component
+	 */
 	public SlowEnemyBullet(float x, float y, ID id, Handler handler, float velX, float velY, SlowEnemy slowEnemy, boolean b, Menu menu) {
 		super(x, y, id);
 		this.handler = handler;
