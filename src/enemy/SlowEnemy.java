@@ -13,6 +13,17 @@ public class SlowEnemy extends GameObject {
     private Handler handler;
     private Menu menu;
 
+    public SlowEnemy(Rectangle location, ID id, Handler handler, Menu menu) {
+        super(location, id);
+        this.handler = handler;
+        this.menu = menu;
+
+        velX = .1f;
+        velY = .3f;
+
+        addBullets();
+    }
+
     public SlowEnemy(float x, float y, ID id, Handler handler, Menu menu) {
         super(x, y, id);
         this.handler = handler;
@@ -25,7 +36,7 @@ public class SlowEnemy extends GameObject {
         addBullets();
     }
 
-    public void addBullets() {
+    void addBullets() {
         // Up and down bullets
         handler.addObject(new SlowEnemyBullet(x + 6, y - 10, ID.SlowEnemyBullet, handler, 0 + velX, -1 + velY, this, true, menu));
         handler.addObject(new SlowEnemyBullet(x + 6, y + 23, ID.SlowEnemyBullet, handler, 0 + velX, 1 + velY, this, false, menu));

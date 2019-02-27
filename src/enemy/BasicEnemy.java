@@ -9,20 +9,26 @@ import util.Constants;
 import java.awt.*;
 import java.util.Random;
 
-//TODO implement the following line to resolve issue
-//throw new RuntimeException("GameObject out of bounds");
-
 public class BasicEnemy extends GameObject {
 
     private Handler handler;
-    private Random r;
+    private Random r = new Random();
     private Menu menu;
+
+    public BasicEnemy(Rectangle location, ID id, Handler handler, Menu menu) {
+        super(location, id);
+        this.handler = handler;
+        this.menu = menu;
+
+
+        velX = (r.nextFloat() * 2.9f) + 1.333f;
+        velY = (r.nextFloat() * 2.9f) + 1.333f;
+    }
 
     public BasicEnemy(float x, float y, ID id, Handler handler, Menu menu) {
         super(x, y, id);
         this.handler = handler;
         this.menu = menu;
-        r = new Random();
 
         velX = (r.nextFloat() * 2.9f) + 1.333f;
         velY = (r.nextFloat() * 2.9f) + 1.333f;

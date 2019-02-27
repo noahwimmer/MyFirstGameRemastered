@@ -11,6 +11,15 @@ public class SmartEnemy extends GameObject {
     private Handler handler;
     private GameObject player;
 
+    public SmartEnemy(Rectangle location, ID id, Handler handler) {
+        super(location, id);
+        this.handler = handler;
+
+        for (int i = 0; i < handler.getObject().size(); i++) {
+            if (handler.getObject().get(i).getId() == ID.Player) player = handler.getObject().get(i);
+        }
+    }
+
     public SmartEnemy(float x, float y, ID id, Handler handler) {
         super(x, y, id);
         this.handler = handler;

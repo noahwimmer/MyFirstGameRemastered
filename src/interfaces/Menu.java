@@ -57,7 +57,7 @@ public class Menu extends MouseAdapter {
 
         if (game.gameState == Game.STATE.Menu) {
             for (int i = 0; i < 100; i++) {
-                handler.addObject(new MenuParticle(r.nextInt(Math.abs(Constants.GAME_WIDTH) - 30), r.nextInt(Math.abs(Constants.GAME_HEIGHT) - 50), ID.Enemy, handler, this));
+                handler.addObject(new MenuParticle(Constants.spawnZone, ID.Enemy, handler, this));
             }
         }
 
@@ -84,14 +84,7 @@ public class Menu extends MouseAdapter {
      */
     public void render(Graphics g) {
         String backArrow = "←";
-        /*
-         *
-         * Styles:
-         * 	0 = Plain
-         *  	1 = Bold
-         *  	2 = Italics
-         *
-         */
+
         Font bigFont = new Font("arial", Font.BOLD, 75);
         Font smallFont = new Font("arial", Font.BOLD, 30);
         Font smallerFont = new Font("arial", Font.BOLD, 20);
@@ -196,7 +189,7 @@ public class Menu extends MouseAdapter {
                 g.setFont(new Font("arial", Font.PLAIN, 20));
                 g.drawString("On", 325, 120);
                 g.drawImage(trails, 325, 120, null);
-            } else if (showOptions[0] && !options[0]) {
+            } else if (showOptions[0]) {
                 g.setFont(new Font("arial", Font.PLAIN, 20));
                 g.drawString("Off", 325, 120);
                 g.drawImage(noTrails, 325, 120, null);
@@ -238,6 +231,7 @@ public class Menu extends MouseAdapter {
             }
         }
 
+        // Help Game State
         if (game.gameState == STATE.Help) {
             //back button for help
             if (mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 5, 400, (Constants.GAME_WIDTH / 3), 64)) {
@@ -246,6 +240,7 @@ public class Menu extends MouseAdapter {
             }
         }
 
+        // End game state
         if (game.gameState == STATE.End) {
             if (mouseOver(mx, my, 200, 400, 300, 64)) {
                 HUD.HEALTH = 100;
@@ -269,8 +264,6 @@ public class Menu extends MouseAdapter {
                 options[0] = false;
             }
 
-            //TODO
-            // on / off for option 2
             if (mouseOver(mx, my, 160, 150, 40, 40) && !options[1]) {
                 options[1] = true;
                 showFPS = true;

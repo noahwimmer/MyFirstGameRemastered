@@ -12,13 +12,21 @@ import java.util.Random;
 
 public class MenuParticle extends GameObject {
 
-    Random r = new Random();
-    Color color = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+    private Random r = new Random();
+    private Color color = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255));
     private Handler handler;
     private Game game;
     private Random random;
     private Menu menu;
 
+    MenuParticle(Rectangle location, ID id, Handler handler, Menu menu) {
+        super(location, id);
+        this.handler = handler;
+        this.menu = menu;
+
+        velX = r.nextInt(9) + 2;
+        velY = r.nextInt(9) + 2;
+    }
 
     public MenuParticle(float x, float y, ID id, Handler handler, Menu menu) {
         super(x, y, id);

@@ -1,7 +1,6 @@
 package main;
 
 //TODO -- Reset local high score data before release
-//TODO -- Add images for options
 //TODO -- make local data for saving options... hard cause i have to learn more about the buffered reader and writer :/
 
 import interfaces.HUD;
@@ -19,16 +18,54 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = -7071532049979466544L;
 
     public static boolean lock60 = false;
-    public STATE gameState = STATE.Options;
+    public STATE gameState = STATE.Menu; // Initial gameState on launch
     public STATE lastState;
     private boolean running = false;
-    private Thread thread;
     private int showFrames;
+    private Thread thread;
     private Handler handler;
     private HUD hud;
     private Spawn spawner;
     private Menu menu;
 
+    // GETTERS AND SETTERS
+
+    /**
+     * sets <code>gameState</code> to the argument
+     *
+     * @param state the state you want the game to be
+     */
+    public void setGameState(STATE state) {
+        this.gameState = state;
+    }
+
+    /**
+     * @return the menu instance
+     */
+    public Menu getMenu() {
+        if (menu != null) return menu;
+        else return null;
+    }
+
+    /**
+     * @return the integer value of the variable <code>showFrames</code>
+     */
+    public int getShowFrames() {
+        return showFrames;
+    }
+
+    public enum STATE {
+        Game,
+        Options,
+        Menu,
+        End,
+        Help
+
+    }
+
+    /**
+     * Constructor for the Game class
+     */
     public Game() {
         this.addFocusListener(new FocusListener() {
             @Override
@@ -39,6 +76,7 @@ public class Game extends Canvas implements Runnable {
             public void focusLost(FocusEvent e) {
                 if (gameState != STATE.Options) {
                     System.out.println("Automatically changed state to options at time of focusLost");
+                    lastState = gameState;
                     gameState = STATE.Options;
                 }
             }
@@ -54,29 +92,20 @@ public class Game extends Canvas implements Runnable {
         new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
     }
 
-    public static float clamp(float var, float min, float max) {
-        if (var >= max) {
-            return var = max;
-        } else if (var <= min) {
-            return var = min;
-        } else {
-            return var;
-        }
+
+    synchronized void start() {
+        thread = new Thread(this);
+        thread.start();
+        running = true;
     }
 
-    public static void main(String[] args) {
-        new Game();
-    }
-
-    public int getShowFrames() {
-        return showFrames;
-    }
-
-    public Menu getMenu() {
+    private synchronized void stop() {
         try {
-            return menu;
-        } catch (NullPointerException e) {
-            throw new NullPointerException();
+            thread.join();
+            running = false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -114,22 +143,6 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    public synchronized void start() {
-        thread = new Thread(this);
-        thread.start();
-        running = true;
-    }
-
-    public synchronized void stop() {
-        try {
-            thread.join();
-            running = false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void run() {
         this.requestFocus();
@@ -144,10 +157,10 @@ public class Game extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
-                tick();
+                if (!lock60) tick();
                 delta--;
                 if (lock60) {
-                    render();
+                    synchronizedLoop();
                     frames++;
                 }
             }
@@ -167,16 +180,31 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    public void setGameState(STATE state) {
-        this.gameState = state;
+    private synchronized void synchronizedLoop() {
+        tick();
+        render();
     }
 
-    public enum STATE {
-        Game,
-        Options,
-        Menu,
-        End,
-        Help
+    /**
+     * @param var Your variable
+     * @param min The minimum
+     * @param max The maximum
+     * @return the variable within the bounds of <code>min</code> and <code>max</code>
+     */
+    public static float clamp(float var, float min, float max) {
+        if (var >= max) {
+            return var = max;
+        } else if (var <= min) {
+            return var = min;
+        } else {
+            return var;
+        }
+    }
 
+    /**
+     * @param args args for the command line
+     */
+    public static void main(String[] args) {
+        new Game();
     }
 }

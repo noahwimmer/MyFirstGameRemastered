@@ -12,19 +12,25 @@ import java.util.Random;
 public class FastEnemy extends GameObject {
 
     private Handler handler;
-    private Random r;
+    private Random r = new Random();
     private Menu menu;
+
+    public FastEnemy(Rectangle location, ID id, Handler handler, Menu menu) {
+        super(location, id);
+        this.handler = handler;
+        this.menu = menu;
+
+        velX = (r.nextFloat() * 5f) + 3f;
+        velY = (r.nextFloat() * 5f) + 3f;
+    }
 
     public FastEnemy(float x, float y, ID id, Handler handler, Menu menu) {
         super(x, y, id);
         this.handler = handler;
         this.menu = menu;
-        r = new Random();
 
         velX = (r.nextFloat() * 5f) + 3f;
         velY = (r.nextFloat() * 5f) + 3f;
-
-
     }
 
     @Override
