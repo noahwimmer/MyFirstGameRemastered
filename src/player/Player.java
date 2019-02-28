@@ -27,7 +27,7 @@ public class Player extends GameObject{
 		this.handler = handler;
 		r = new Random();
 
-		shield = new PlayerShield(x, y, ID.Shield, handler);
+		shield = new PlayerShield(x, y, ID.Shield, handler, this);
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import main.Game;
 import main.GameObject;
 import main.Handler;
 import main.ID;
+import player.Player;
+import player.PlayerShield;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -30,6 +32,33 @@ public class KeyInput extends KeyAdapter {
         keyDown[1] = false;
         keyDown[2] = false;
         keyDown[3] = false;
+    }
+
+    public void tick() {
+        if (keyDown[0]) {
+            PlayerShield.onAcceleration(Constants.TOP);
+        }
+        if (keyDown[0] && keyDown[3]) {
+            PlayerShield.onAcceleration(Constants.TOP_RIGHT);
+        }
+        if (keyDown[3]) {
+            PlayerShield.onAcceleration(Constants.RIGHT);
+        }
+        if (keyDown[3] && keyDown[1]) {
+            PlayerShield.onAcceleration(Constants.BOTTOM_RIGHT);
+        }
+        if (keyDown[1]) {
+            PlayerShield.onAcceleration(Constants.BOTTOM);
+        }
+        if (keyDown[1] && keyDown[2]) {
+            PlayerShield.onAcceleration(Constants.BOTTOM_LEFT);
+        }
+        if (keyDown[2]) {
+            PlayerShield.onAcceleration(Constants.LEFT);
+        }
+        if (keyDown[2] && keyDown[0]) {
+            PlayerShield.onAcceleration(Constants.TOP_LEFT);
+        }
     }
 
     public void keyPressed(KeyEvent e) {
@@ -71,7 +100,6 @@ public class KeyInput extends KeyAdapter {
                 }
 
             }
-
             if (key == KeyEvent.VK_1) spawn.increaseLevel();
 
 
@@ -97,6 +125,7 @@ public class KeyInput extends KeyAdapter {
                 if (!keyDown[2] && !keyDown[3]) tempObject.setVelX(0);
             }
 
+            PlayerShield.onAcceleration(-1);
 
             //Add more if-statements like above for more characters
         }
