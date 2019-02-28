@@ -17,22 +17,37 @@ public class Player extends GameObject{
 	
 	private Random r;
 	private Handler handler;
+	private PlayerShield shield;
+
+	private float lastVelx;
+	private float lastVely;
 
 	public Player(float x, float y, ID id, Handler handler) {
 		super(x, y, id);
 		this.handler = handler;
 		r = new Random();
+
+		shield = new PlayerShield(x, y, ID.Shield, handler);
 	}
 
 	@Override
 	public void tick() {
 		x += velX;
 		y += velY;
+
+		if(lastVelx != velX || lastVely != velY) {
+			if(velX > 0) {
+
+			}
+		}
 		
 		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 37);
 		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 60);
 		
-		collison();
+		collision();
+
+		lastVelx = velX;
+		lastVely = velY;
 	}
 
 	@Override
@@ -46,7 +61,7 @@ public class Player extends GameObject{
 		return(new Rectangle((int)x, (int)y, 32, 32));
 	}
 	
-	private void collison() {
+	private void collision() {
 		for(int i = 0; i < handler.getObject().size(); i++) {
 			
 			GameObject tempObject = handler.getObject().get(i);
