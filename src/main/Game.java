@@ -29,6 +29,7 @@ public class Game extends Canvas implements Runnable {
     private Menu menu;
 
     // GETTERS AND SETTERS
+    // test
 
     /**
      * sets <code>gameState</code> to the argument
