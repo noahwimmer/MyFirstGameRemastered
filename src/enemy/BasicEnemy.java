@@ -4,6 +4,8 @@ import interfaces.Menu;
 import main.GameObject;
 import main.Handler;
 import main.ID;
+import player.Player;
+import player.PlayerShield;
 import util.Constants;
 
 import java.awt.*;
@@ -14,12 +16,20 @@ public class BasicEnemy extends GameObject {
     private Handler handler;
     private Random r = new Random();
     private Menu menu;
+    private GameObject player;
 
     public BasicEnemy(Rectangle location, ID id, Handler handler, Menu menu) {
         super(location, id);
         this.handler = handler;
         this.menu = menu;
 
+        for(int i = 0; i < handler.getObject().size(); i++) {
+            GameObject tempObject = handler.getObject().get(i);
+
+            if(tempObject.getId()== ID.Player) {
+                this.player = tempObject;
+            }
+        }
 
         velX = (r.nextFloat() * 2.9f) + 1.333f;
         velY = (r.nextFloat() * 2.9f) + 1.333f;
@@ -32,6 +42,14 @@ public class BasicEnemy extends GameObject {
 
         velX = (r.nextFloat() * 2.9f) + 1.333f;
         velY = (r.nextFloat() * 2.9f) + 1.333f;
+
+        for(int i = 0; i < handler.getObject().size(); i++) {
+            GameObject tempObject = handler.getObject().get(i);
+
+            if(tempObject.getId()== ID.Player) {
+                this.player = tempObject;
+            }
+        }
 
 
     }
@@ -70,8 +88,27 @@ public class BasicEnemy extends GameObject {
 
             if(tempObject.getId() == ID.PlayerShield) {
                 if(getBounds().intersects(tempObject.getBounds())) {
-                    velX *= -1;
-                    velY *= -1;
+                    //TODO implement way better collision code for moving out of the way of the player
+                    if(PlayerShield.getDir()[Constants.TOP]) y -= 4;
+                    if(PlayerShield.getDir()[Constants.RIGHT]) x += 4;
+                    if(PlayerShield.getDir()[Constants.BOTTOM]) y += 4;
+                    if(PlayerShield.getDir()[Constants.LEFT]) x -= 8;
+                    if(PlayerShield.getDir()[Constants.TOP_LEFT]) {
+                        x -= 4;
+                        y -= 4;
+                    }
+                    if(PlayerShield.getDir()[Constants.TOP_RIGHT]) {
+                        x+= 4;
+                        y -=4;
+                    }
+                    if(PlayerShield.getDir()[Constants.BOTTOM_LEFT]) {
+                        y += 4;
+                        x -= 4;
+                    }
+                    if(PlayerShield.getDir()[Constants.BOTTOM_RIGHT]) {
+                        y += 4;
+                        x += 4;
+                    }
                 }
             }
         }

@@ -15,6 +15,10 @@ public class PlayerShield extends GameObject {
     // clock wise starting with top
     private static boolean[] dir = {false, false, false, false, false, false, false, false};
 
+    public static boolean[] getDir() {
+        return dir;
+    }
+
     public PlayerShield(Rectangle location, ID id, Handler handler, Player player) {
         super(location, id);
         this.handler = handler;
