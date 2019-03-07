@@ -27,7 +27,7 @@ public class Player extends GameObject{
 		this.handler = handler;
 		r = new Random();
 
-		shield = new PlayerShield(x, y, ID.Shield, handler, this);
+		shield = new PlayerShield(x, y, ID.PlayerShield, handler, this);
 	}
 
 	@Override
@@ -35,14 +35,8 @@ public class Player extends GameObject{
 		x += velX;
 		y += velY;
 
-		if(lastVelx != velX || lastVely != velY) {
-			if(velX > 0) {
-
-			}
-		}
-		
-		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 37);
-		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 60);
+		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 48);
+		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 72);
 		
 		collision();
 

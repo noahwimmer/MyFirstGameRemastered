@@ -3,6 +3,7 @@ package player;
 import main.GameObject;
 import main.Handler;
 import main.ID;
+import util.Constants;
 
 import java.awt.*;
 
@@ -25,7 +26,7 @@ public class PlayerShield extends GameObject {
         super(x, y, id);
         this.handler = handler;
         this.player = player;
-        handler.addObject(this);
+        this.handler.addObject(this);
     }
 
 
@@ -38,49 +39,60 @@ public class PlayerShield extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.YELLOW);
-        /*
-        dir[0] = up
-        dir[1] = top right
-        dir[2] = right
-        dir[3] = bottom right
-        dir[4] = bottom
-        dir[5] = bottom left
-        dir[6] = left
-        dir[7] = top left
-        */
-        if(dir[0]) {
-            g.fillRect((int)player.getX(), (int)player.getY() - 10, 15,5);
-        } else if(dir[1]) {
-            g.fillRect((int)player.getX() - 5, (int) player.getY() + 3, 5, 15);
-        } else if(dir[2]) {
 
-        } else if(dir[3])  {
-
-        }else if(dir[4])  {
-
-        }else if(dir[5])  {
-
-        }else if(dir[6])  {
-
-        }else if(dir[7])  {
-
+        if (dir[Constants.TOP]) {
+            g.fillRect((int) player.getX(), (int) player.getY() - 15, 32, 6);
+        } else if (dir[Constants.TOP_RIGHT]) {
+            g.fillRect((int) player.getX() + 24, (int) player.getY() - 12, 20, 6);
+            g.fillRect((int) player.getX() + 38, (int) player.getY() - 12, 6, 20);
+        } else if (dir[Constants.RIGHT]) {
+            g.fillRect((int) player.getX() + 40, (int) player.getY(), 6, 32);
+        } else if (dir[Constants.BOTTOM_RIGHT]) {
+            g.fillRect((int) player.getX() + 24, (int) player.getY() + 38, 20, 6);
+            g.fillRect((int) player.getX() + 38, (int) player.getY() + 24, 6, 20);
+        } else if (dir[Constants.BOTTOM]) {
+            g.fillRect((int) player.getX(), (int) player.getY() + 42, 32, 6);
+        } else if (dir[Constants.BOTTOM_LEFT]) {
+            g.fillRect((int) player.getX() - 12, (int) player.getY() + 38, 20, 6);
+            g.fillRect((int) player.getX() - 12, (int) player.getY() + 24, 6, 20);
+        } else if (dir[Constants.LEFT]) {
+            g.fillRect((int) player.getX() - 12, (int) player.getY(), 6, 32);
+        } else if (dir[Constants.TOP_LEFT]) {
+            g.fillRect((int) player.getX() -12, (int) player.getY() - 12, 20, 6);
+            g.fillRect((int) player.getX() -12, (int) player.getY() - 12, 6, 20);
         }
 
     }
 
     @Override
     public Rectangle getBounds() {
-        //TODO add implementation
-        return null;
+        if (dir[Constants.TOP]) {
+            return new Rectangle((int) player.getX(), (int) player.getY() - 15, 32, 6);
+        } else if (dir[Constants.TOP_RIGHT]) {
+            return new Rectangle((int) player.getX() + 24, (int) player.getY() - 12, 20, 20);
+        } else if (dir[Constants.RIGHT]) {
+            return new Rectangle((int) player.getX() + 40, (int) player.getY(), 6, 32);
+        } else if (dir[Constants.BOTTOM_RIGHT]) {
+            return new Rectangle((int) player.getX() + 24, (int) player.getY() + 24, 20, 20);
+        } else if (dir[Constants.BOTTOM]) {
+            return new Rectangle((int) player.getX(), (int) player.getY() + 42, 32, 6);
+        } else if (dir[Constants.BOTTOM_LEFT]) {
+            return new Rectangle((int) player.getX() - 12, (int) player.getY() + 24, 20, 20);
+        } else if (dir[Constants.LEFT]) {
+            return new Rectangle((int) player.getX() - 12, (int) player.getY(), 6, 32);
+        } else if (dir[Constants.TOP_LEFT]) {
+            return new Rectangle((int) player.getX() -12, (int) player.getY() - 12, 20, 20);
+        } else {
+            return new Rectangle(-100, -100, 1,1);
+        }
     }
 
     /**
-     *
      * @param i Use a constant from any direction (ex. Constants.TOP)
      */
     public static void onAcceleration(int i) {
-        if(i == -1) {
-            for(int j = 0; j < dir.length; j++) {
+        if (i == -1) {
+            for (int j = 0; j < dir.length; j++) {
                 dir[j] = false;
             }
             return;
@@ -90,7 +102,8 @@ public class PlayerShield extends GameObject {
             }
             try {
                 dir[i] = true;
-            } catch (ArrayIndexOutOfBoundsException e) {}
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
         }
     }
 }

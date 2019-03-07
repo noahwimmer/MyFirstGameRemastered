@@ -135,6 +135,9 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.black);
         g.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
 
+        g.setColor(Color.YELLOW);
+        g.drawRect(50, 50, Constants.GAME_WIDTH - 110, Constants.GAME_HEIGHT - 130);
+
         handler.render(g);
 
         if (gameState == STATE.Game) {
@@ -208,6 +211,7 @@ public class Game extends Canvas implements Runnable {
      * @param args args for the command line
      */
     public static void main(String[] args) {
+
         new Game();
     }
 }

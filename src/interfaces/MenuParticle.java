@@ -19,7 +19,7 @@ public class MenuParticle extends GameObject {
     private Random random;
     private Menu menu;
 
-    MenuParticle(Rectangle location, ID id, Handler handler, Menu menu) {
+    public MenuParticle(Rectangle location, ID id, Handler handler, Menu menu) {
         super(location, id);
         this.handler = handler;
         this.menu = menu;

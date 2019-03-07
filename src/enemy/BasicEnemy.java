@@ -44,6 +44,8 @@ public class BasicEnemy extends GameObject {
         if (y <= 0 || y >= Constants.GAME_HEIGHT - 60) velY *= -1;
         if (x <= 0 || x >= Constants.GAME_WIDTH - 40) velX *= -1;
 
+        collision();
+
         if (menu.getOptions()[0]) {
             handler.addObject(new Trail(x, y, ID.Trail, Color.red, 24, 24, Constants.DECAY, handler));
         }
@@ -59,6 +61,20 @@ public class BasicEnemy extends GameObject {
     @Override
     public Rectangle getBounds() {
         return (new Rectangle((int) x, (int) y, 24, 24));
+    }
+
+    private void collision() {
+        for(int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+            if(tempObject.getId() == ID.PlayerShield) {
+                if(getBounds().intersects(tempObject.getBounds())) {
+                    velX *= -1;
+                    velY *= -1;
+                }
+            }
+        }
     }
 
 }

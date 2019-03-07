@@ -19,7 +19,6 @@ public class KeyInput extends KeyAdapter {
     private Handler handler;
     private Spawn spawn;
     private Menu menu;
-    private Random r = new Random();
     private boolean[] keyDown = new boolean[4];
 
     public KeyInput(Handler handler, Spawn spawn, Game game, Menu menu) {
@@ -35,28 +34,28 @@ public class KeyInput extends KeyAdapter {
     }
 
     public void tick() {
-        if (keyDown[0]) {
+        if (keyDown[0] && !keyDown[1] && !keyDown[2] && !keyDown[3]) {
             PlayerShield.onAcceleration(Constants.TOP);
         }
-        if (keyDown[0] && keyDown[3]) {
+        if (keyDown[0] && keyDown[3] && !keyDown[1] && !keyDown[2]) {
             PlayerShield.onAcceleration(Constants.TOP_RIGHT);
         }
-        if (keyDown[3]) {
+        if (keyDown[3] && !keyDown[0] && !keyDown[1] && !keyDown[2]) {
             PlayerShield.onAcceleration(Constants.RIGHT);
         }
-        if (keyDown[3] && keyDown[1]) {
+        if (keyDown[3] && keyDown[1] && !keyDown[0] && !keyDown[2]) {
             PlayerShield.onAcceleration(Constants.BOTTOM_RIGHT);
         }
-        if (keyDown[1]) {
+        if (keyDown[1] && !keyDown[0] && !keyDown[2] && !keyDown[3]) {
             PlayerShield.onAcceleration(Constants.BOTTOM);
         }
-        if (keyDown[1] && keyDown[2]) {
+        if (keyDown[1] && keyDown[2] && !keyDown[0] && !keyDown[3]) {
             PlayerShield.onAcceleration(Constants.BOTTOM_LEFT);
         }
-        if (keyDown[2]) {
+        if (keyDown[2] && !keyDown[0] && !keyDown[1] && !keyDown[3]) {
             PlayerShield.onAcceleration(Constants.LEFT);
         }
-        if (keyDown[2] && keyDown[0]) {
+        if (keyDown[2] && keyDown[0] && !keyDown[1] && !keyDown[3]) {
             PlayerShield.onAcceleration(Constants.TOP_LEFT);
         }
     }
@@ -71,7 +70,7 @@ public class KeyInput extends KeyAdapter {
             if (game.lastState == null) {
                 game.gameState = Game.STATE.Menu;
                 for (int i = 0; i < 100; i++) {
-                    handler.addObject(new MenuParticle((Math.abs((r.nextFloat() - Constants.DELTA)) * Constants.GAME_WIDTH), (Math.abs((r.nextFloat() - Constants.DELTA)) * Constants.GAME_HEIGHT), ID.Enemy, handler, menu));
+                    handler.addObject(new MenuParticle(Constants.spawnZone, ID.Enemy, handler, menu));
                 }
             } else game.gameState = game.lastState;
         }
