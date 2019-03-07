@@ -59,8 +59,20 @@ public class BasicEnemy extends GameObject {
         x += velX;
         y += velY;
 
-        if (y <= 0 || y >= Constants.GAME_HEIGHT - 60) velY *= -1;
-        if (x <= 0 || x >= Constants.GAME_WIDTH - 40) velX *= -1;
+        if (y <= 0) {
+            velY *= -1;
+            y = 5;
+        } if(y >= Constants.GAME_HEIGHT - 60) {
+            velY *= -1;
+            y = Constants.GAME_HEIGHT - 70;
+        }
+        if (x <= 0){
+            velX *= -1;
+            x = 5;
+        } if(x >= Constants.GAME_WIDTH - 40){
+            velX *= -1;
+            x = Constants.GAME_WIDTH - 50;
+        }
 
         collision();
 
