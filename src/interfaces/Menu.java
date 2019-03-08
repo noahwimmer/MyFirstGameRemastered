@@ -1,5 +1,6 @@
 package interfaces;
 
+import Powerups.Powerup;
 import enemy.BasicEnemy;
 import main.Game;
 import main.Game.STATE;
@@ -216,7 +217,7 @@ public class Menu extends MouseAdapter {
                 handler.removeAll();
                 game.gameState = Game.STATE.Game;
                 handler.addObject(new Player((Constants.GAME_WIDTH / 2.0f), (Constants.GAME_HEIGHT / 2.0f), ID.Player, handler));
-                handler.addObject(new BasicEnemy((r.nextInt(Constants.GAME_WIDTH)), (r.nextInt(Constants.GAME_HEIGHT)), ID.Enemy, handler, this));
+                handler.addObject(new BasicEnemy(Constants.spawnZone, ID.Enemy, handler, this));
             }
 
             //help button

@@ -1,5 +1,6 @@
 package util;
 
+import Powerups.Powerup;
 import enemy.BasicEnemy;
 import enemy.FastEnemy;
 import enemy.SlowEnemy;
@@ -42,6 +43,11 @@ public class Spawn {
             hud.setLevel(hud.getLevel() + 1);
 
             HUD.HEALTH += 10;
+
+            //levels to add a shield powerup
+            if(hud.getLevel() == 3 || hud.getLevel() == 6){
+                handler.addObject(new Powerup(Constants.spawnZone, ID.PowerUp, handler, "shield"));
+            }
 
             //levels to add a basic enemy
             if (hud.getLevel() == 2 || hud.getLevel() == 3 || hud.getLevel() == 5) {

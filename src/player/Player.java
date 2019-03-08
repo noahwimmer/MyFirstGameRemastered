@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import Powerups.Powerup;
 import interfaces.HUD;
 
 import main.Game;
@@ -17,22 +18,42 @@ public class Player extends GameObject{
 	
 	private Random r;
 	private Handler handler;
+	private PlayerShield shield;
+
+	private int powerUpTimer = 0;
+
+	private boolean shieldOn = false;
+
+	public boolean getShieldOn() {
+	    return shieldOn;
+    }
 
 	public Player(float x, float y, ID id, Handler handler) {
 		super(x, y, id);
 		this.handler = handler;
 		r = new Random();
+
+		shield = new PlayerShield(x, y, ID.PlayerShield, handler, this);
 	}
 
 	@Override
 	public void tick() {
 		x += velX;
 		y += velY;
+
+		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 48);
+		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 72);
 		
-		x = Game.clamp(x, 0, Constants.GAME_WIDTH - 37);
-		y = Game.clamp(y, 0, Constants.GAME_HEIGHT - 60);
-		
-		collison();
+		collision();
+
+		if(powerUpTimer > 0) {
+			powerUpTimer--;
+		}
+
+		if(powerUpTimer == 0 && shieldOn) {
+			shieldOn = false;
+		}
+
 	}
 
 	@Override
@@ -46,7 +67,7 @@ public class Player extends GameObject{
 		return(new Rectangle((int)x, (int)y, 32, 32));
 	}
 	
-	private void collison() {
+	private void collision() {
 		for(int i = 0; i < handler.getObject().size(); i++) {
 			
 			GameObject tempObject = handler.getObject().get(i);
@@ -56,8 +77,21 @@ public class Player extends GameObject{
 					// Collision code
 					HUD.HEALTH -= 1.5;	
 				}
-			} 			
+			}
+
+			if(tempObject.getId() == ID.PowerUp) {
+                if(getBounds().intersects(tempObject.getBounds())){
+                    powerUpTimer = toTicks(30);
+
+                    if(Powerup.getPower() == "shield") shieldOn = true;
+                }
+
+			}
 		}
 	}
+
+	private int toTicks(int seconds) {
+	    return seconds * 60;
+    }
 
 }

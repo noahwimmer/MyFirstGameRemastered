@@ -12,9 +12,9 @@ public abstract class GameObject {
     private Random r = new Random();
 
     //This constructor is in beta to make the spawn more consistent while being able to define the spawn location within Constants
-    public GameObject(Rectangle locationWindow, ID id) {
-        this.x = (r.nextFloat() * (locationWindow.width - locationWindow.x)) + locationWindow.x;
-        this.y = (r.nextFloat() * (locationWindow.height - locationWindow.y)) + locationWindow.y;
+    public GameObject(Rectangle spawnLocation, ID id) {
+        this.x = (r.nextFloat() * (spawnLocation.width - spawnLocation.x)) + (spawnLocation.x - 25);
+        this.y = (r.nextFloat() * (spawnLocation.height - spawnLocation.y)) + (spawnLocation.y - 25);
         this.id = id;
     }
 
@@ -69,4 +69,6 @@ public abstract class GameObject {
     public void setVelY(int velY) {
         this.velY = velY;
     }
+
+
 }

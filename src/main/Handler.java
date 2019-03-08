@@ -67,7 +67,7 @@ public class Handler {
     public void removePlayer() {
         for (int i = 0; i < this.object.size(); i++) {
             GameObject tempObject = this.object.get(i);
-            if (tempObject.getId() == ID.Player) {
+            if (tempObject.getId() == ID.Player || tempObject.getId() == ID.PlayerShield) {
                 this.removeObject(tempObject);
                 i--;
             }
@@ -78,7 +78,7 @@ public class Handler {
     public void removeAll() {
         for (int i = 0; i < this.object.size(); i++) {
             GameObject tempObject = this.object.get(i);
-            if (!(tempObject.getId() == (ID.Player))) {
+            if (!(tempObject.getId() == (ID.Player) || tempObject.getId() == ID.PlayerShield)) {
                 this.removeObject(tempObject);
                 i--;
             }

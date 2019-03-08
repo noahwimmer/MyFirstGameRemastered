@@ -27,6 +27,7 @@ public class Game extends Canvas implements Runnable {
     private HUD hud;
     private Spawn spawner;
     private Menu menu;
+    private KeyInput keyInput;
 
     // GETTERS AND SETTERS
 
@@ -85,8 +86,9 @@ public class Game extends Canvas implements Runnable {
         hud = new HUD(this, handler);
         spawner = new Spawn(handler, hud, this);
         menu = new Menu(this, handler, hud, spawner);
+        keyInput = new KeyInput(handler,spawner,this,menu);
 
-        this.addKeyListener(new KeyInput(handler, spawner, this, menu));
+        this.addKeyListener(keyInput);
         this.addMouseListener(menu);
 
         new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
@@ -118,6 +120,7 @@ public class Game extends Canvas implements Runnable {
             spawner.tick();
             hud.tick();
         }
+        keyInput.tick();
     }
 
     public void render() {
@@ -205,6 +208,7 @@ public class Game extends Canvas implements Runnable {
      * @param args args for the command line
      */
     public static void main(String[] args) {
+
         new Game();
     }
 }
