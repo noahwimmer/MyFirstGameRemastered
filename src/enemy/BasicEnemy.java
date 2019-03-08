@@ -101,7 +101,6 @@ public class BasicEnemy extends GameObject {
 
             if (tempObject.getId() == ID.PlayerShield) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    //TODO implement way better collision code for moving out of the way of the player
                     if (PlayerShield.getDir()[Constants.TOP]) y -= 6;
                     if (PlayerShield.getDir()[Constants.RIGHT]) x += 6;
                     if (PlayerShield.getDir()[Constants.BOTTOM]) y += 6;

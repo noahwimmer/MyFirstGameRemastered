@@ -71,6 +71,8 @@ public class Player extends GameObject{
 		for(int i = 0; i < handler.getObject().size(); i++) {
 			
 			GameObject tempObject = handler.getObject().get(i);
+
+
 			
 			if(tempObject.getId() == ID.Enemy || tempObject.getId() == ID.SlowEnemy || tempObject.getId() == ID.SlowEnemyBullet) {
 				if(getBounds().intersects(tempObject.getBounds())) {
@@ -83,6 +85,7 @@ public class Player extends GameObject{
                 if(getBounds().intersects(tempObject.getBounds())){
                     powerUpTimer = toTicks(30);
 
+                    if(Powerup.getPower() == "health") HUD.HEALTH += 25;
                     if(Powerup.getPower() == "shield") shieldOn = true;
                 }
 

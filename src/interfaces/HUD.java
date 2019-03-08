@@ -71,7 +71,6 @@ public class HUD {
                     highScore = score + "";
                     writeToFile(score + "");
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

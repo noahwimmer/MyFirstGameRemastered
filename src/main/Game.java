@@ -1,7 +1,7 @@
 package main;
 
+// Put TODOs here
 //TODO -- Reset local high score data before release
-//TODO -- make local data for saving options... hard cause i have to learn more about the buffered reader and writer :/
 
 import interfaces.HUD;
 import interfaces.Menu;
@@ -208,7 +208,6 @@ public class Game extends Canvas implements Runnable {
      * @param args args for the command line
      */
     public static void main(String[] args) {
-
         new Game();
     }
 }

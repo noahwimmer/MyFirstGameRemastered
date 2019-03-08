@@ -49,6 +49,10 @@ public class Spawn {
                 handler.addObject(new Powerup(Constants.spawnZone, ID.PowerUp, handler, "shield"));
             }
 
+            if(hud.getLevel() == 4 || hud.getLevel() == 10) {
+                handler.addObject(new Powerup(Constants.spawnZone, ID.PowerUp, handler, "health"));
+            }
+
             //levels to add a basic enemy
             if (hud.getLevel() == 2 || hud.getLevel() == 3 || hud.getLevel() == 5) {
                 handler.addObject(new BasicEnemy(Constants.spawnZone, ID.Enemy, handler, game.getMenu()));
