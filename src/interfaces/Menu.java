@@ -218,7 +218,6 @@ public class Menu extends MouseAdapter {
                 game.gameState = Game.STATE.Game;
                 handler.addObject(new Player((Constants.GAME_WIDTH / 2.0f), (Constants.GAME_HEIGHT / 2.0f), ID.Player, handler));
                 handler.addObject(new BasicEnemy(Constants.spawnZone, ID.Enemy, handler, this));
-                handler.addObject(new Powerup(Constants.spawnZone, ID.PowerUp, handler, "shield")); //this isnt rendering D:
             }
 
             //help button
