@@ -7,6 +7,7 @@ public enum ID {
     SlowEnemy,
     SlowEnemyBullet,
     Trail,
-    PlayerShield
+    PlayerShield,
+    PowerUp
 
 }

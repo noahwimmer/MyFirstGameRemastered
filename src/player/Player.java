@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import Powerups.Powerup;
 import interfaces.HUD;
 
 import main.Game;
@@ -19,8 +20,13 @@ public class Player extends GameObject{
 	private Handler handler;
 	private PlayerShield shield;
 
-	private float lastVelx;
-	private float lastVely;
+	private int powerUpTimer = 0;
+
+	private boolean shieldOn = false;
+
+	public boolean getShieldOn() {
+	    return shieldOn;
+    }
 
 	public Player(float x, float y, ID id, Handler handler) {
 		super(x, y, id);
@@ -40,8 +46,14 @@ public class Player extends GameObject{
 		
 		collision();
 
-		lastVelx = velX;
-		lastVely = velY;
+		if(powerUpTimer > 0) {
+			powerUpTimer--;
+		}
+
+		if(powerUpTimer == 0 && shieldOn) {
+			shieldOn = false;
+		}
+
 	}
 
 	@Override
@@ -65,8 +77,21 @@ public class Player extends GameObject{
 					// Collision code
 					HUD.HEALTH -= 1.5;	
 				}
-			} 			
+			}
+
+			if(tempObject.getId() == ID.PowerUp) {
+                if(getBounds().intersects(tempObject.getBounds())){
+                    powerUpTimer = toTicks(30);
+
+                    if(Powerup.getPower() == "shield") shieldOn = true;
+                }
+
+			}
 		}
 	}
+
+	private int toTicks(int seconds) {
+	    return seconds * 60;
+    }
 
 }
