@@ -91,7 +91,7 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(keyInput);
         this.addMouseListener(menu);
 
-        new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this);
+        new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, "My Game Remastered", this, menu);
     }
 
 
