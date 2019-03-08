@@ -1,6 +1,5 @@
 package interfaces;
 
-import Powerups.Powerup;
 import enemy.BasicEnemy;
 import main.Game;
 import main.Game.STATE;
@@ -15,7 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.io.*;
 import java.util.Random;
 
 public class Menu extends MouseAdapter {
@@ -24,7 +23,12 @@ public class Menu extends MouseAdapter {
     private Handler handler;
     private HUD hud;
     private Spawn spawn;
-    private boolean showFPS = false;
+    private BufferedReader bufferedReader;
+    private BufferedWriter bufferedWriter;
+
+    private String[] line = {"", "", ""};
+
+    private final String FILE_PATH = "res/Options/saved_options/options";
 
     private Image trails;
     private Image noTrails;
@@ -48,12 +52,37 @@ public class Menu extends MouseAdapter {
             e.printStackTrace();
         }
 
-        // Sets all of the options pre-defined to false
-        for (int i = 0; i < options.length; i++) {
-            options[i] = false;
-        }
-        for (int i = 0; i < showOptions.length; i++) {
-            showOptions[i] = false;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(new File(FILE_PATH)));
+
+            line[0] = bufferedReader.readLine();
+            line[1] = bufferedReader.readLine();
+            line[2] = bufferedReader.readLine();
+
+            System.out.println(line[0]);
+            System.out.println(line[1]);
+            System.out.println(line[2]);
+
+            if(line[0].equals("0")) {
+                options[0] = false;
+            } else {
+                options[0] = true;
+            }
+            if(line[1].equals("0")) {
+                options[1] = false;
+            } else {
+                options[1] = true;
+            }
+            if(line[2].equals("0")) {
+                options[2] = false;
+                Game.lock60 = false;
+            } else {
+                options[2] = true;
+                Game.lock60 = true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (game.gameState == Game.STATE.Menu) {
@@ -139,10 +168,10 @@ public class Menu extends MouseAdapter {
             //gray backdrop
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
-            //Heading
-            g.setFont(smallFont);
-            g.setColor(Color.WHITE);
 
+            //Heading
+            g.setColor(Color.WHITE);
+            g.setFont(smallFont);
             g.drawString("Options", 30, 50);
 
             //back arrow
@@ -258,6 +287,16 @@ public class Menu extends MouseAdapter {
         }
 
         if (game.gameState == STATE.Options) {
+
+            // apply button
+            if(mouseOver(mx, my, 510,10,90,50)){
+                try{
+                    apply();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
             // on / off for option 1
             if (mouseOver(mx, my, 160, 95, 40, 40) && !options[0]) {
                 options[0] = true;
@@ -265,6 +304,7 @@ public class Menu extends MouseAdapter {
                 options[0] = false;
             }
 
+            boolean showFPS = false;
             if (mouseOver(mx, my, 160, 150, 40, 40) && !options[1]) {
                 options[1] = true;
                 showFPS = true;
@@ -296,6 +336,20 @@ public class Menu extends MouseAdapter {
         }
 
 
+    }
+
+    public void apply() throws IOException {
+
+        bufferedWriter = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
+
+        for(int i = 0; i < options.length; i++) {
+            if(options[i]) {
+                bufferedWriter.write("1\n");
+            } else {
+                bufferedWriter.write("0\n");
+            }
+        }
+        bufferedWriter.close();
     }
 
     private boolean mouseOver(int mx, int my, int x, int y, int width, int height) {
