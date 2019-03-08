@@ -77,15 +77,15 @@ public class Player extends GameObject{
 			if(tempObject.getId() == ID.Enemy || tempObject.getId() == ID.SlowEnemy || tempObject.getId() == ID.SlowEnemyBullet) {
 				if(getBounds().intersects(tempObject.getBounds())) {
 					// Collision code
-					HUD.HEALTH -= 1.5;	
+					HUD.HEALTH -= 2;
 				}
 			}
 
 			if(tempObject.getId() == ID.PowerUp) {
                 if(getBounds().intersects(tempObject.getBounds())){
-                    powerUpTimer = toTicks(30);
+                    powerUpTimer = toTicks(20);
 
-                    if(Powerup.getPower() == "health") HUD.HEALTH += 25;
+                    if(Powerup.getPower() == "health") HUD.HEALTH += 20;
                     if(Powerup.getPower() == "shield") shieldOn = true;
                 }
 
