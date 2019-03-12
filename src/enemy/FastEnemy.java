@@ -4,6 +4,7 @@ import interfaces.Menu;
 import main.GameObject;
 import main.Handler;
 import main.ID;
+import player.PlayerShield;
 import util.Constants;
 
 import java.awt.*;
@@ -41,6 +42,8 @@ public class FastEnemy extends GameObject {
         if (y <= 0 || y >= Constants.GAME_HEIGHT - 40) velY *= -1;
         if (x <= 0 || x >= Constants.GAME_WIDTH - 16) velX *= -1;
 
+        collision();
+
         if (menu.getOptions()[0]) {
             handler.addObject(new Trail(x, y, ID.Trail, Color.cyan, 16, 16, Constants.DECAY, handler));
         }
@@ -57,4 +60,35 @@ public class FastEnemy extends GameObject {
         return (new Rectangle((int) x, (int) y, 16, 16));
     }
 
+    private void collision() {
+        for (int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+            if (tempObject.getId() == ID.PlayerShield) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    if (PlayerShield.getDir()[Constants.TOP]) y -= 6;
+                    if (PlayerShield.getDir()[Constants.RIGHT]) x += 6;
+                    if (PlayerShield.getDir()[Constants.BOTTOM]) y += 6;
+                    if (PlayerShield.getDir()[Constants.LEFT]) x -= 10;
+                    if (PlayerShield.getDir()[Constants.TOP_LEFT]) {
+                        x -= 6;
+                        y -= 6;
+                    }
+                    if (PlayerShield.getDir()[Constants.TOP_RIGHT]) {
+                        x += 6;
+                        y -= 6;
+                    }
+                    if (PlayerShield.getDir()[Constants.BOTTOM_LEFT]) {
+                        y += 6;
+                        x -= 6;
+                    }
+                    if (PlayerShield.getDir()[Constants.BOTTOM_RIGHT]) {
+                        y += 6;
+                        x += 6;
+                    }
+                }
+            }
+        }
+    }
 }

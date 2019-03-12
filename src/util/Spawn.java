@@ -1,25 +1,15 @@
 package util;
 
 import Powerups.Powerup;
-import enemy.BasicEnemy;
-import enemy.FastEnemy;
-import enemy.SlowEnemy;
-import enemy.SmartEnemy;
 import interfaces.HUD;
-import main.Game;
-import main.GameObject;
-import main.Handler;
-import main.ID;
-
-import java.util.Random;
-
+import enemy.*;
+import main.*;
 public class Spawn {
 
     private Handler handler;
     private HUD hud;
     private GameObject object;
     private Game game;
-    private Random r = new Random();
 
     private int scoreKeep = 0;
 
@@ -29,27 +19,24 @@ public class Spawn {
         this.game = game;
     }
 
-    public void setScoreKeep(int i) {
-        scoreKeep = i;
-    }
-
-    void increaseLevel() {
-        scoreKeep = 600;
-    }
-
     private void updateSpawn() {
-        if (scoreKeep >= 600) {
+        if (scoreKeep >= 650) {
             scoreKeep = 0;
             hud.setLevel(hud.getLevel() + 1);
 
             HUD.HEALTH += 10;
 
+            if(hud.getLevel() == 9) {
+                handler.addObject(new RandomEnemy(Constants.spawnZone, ID.Enemy, handler));
+            }
+
             //levels to add a shield powerup
-            if(hud.getLevel() == 3 || hud.getLevel() == 6){
+            if (hud.getLevel() == 4 || hud.getLevel() == 13) {
                 handler.addObject(new Powerup(Constants.spawnZone, ID.PowerUp, handler, "shield"));
             }
 
-            if(hud.getLevel() == 4 || hud.getLevel() == 10) {
+            //levels to add a health powerup
+            if (hud.getLevel() == 7 || hud.getLevel() == 10) {
                 handler.addObject(new Powerup(Constants.spawnZone, ID.PowerUp, handler, "health"));
             }
 
@@ -63,7 +50,7 @@ public class Spawn {
             }
 
             //levels to add a slow enemy
-            if (hud.getLevel() == 5) {
+            if (hud.getLevel() == 8) {
                 handler.addObject(new SlowEnemy(Constants.spawnZone, ID.SlowEnemy, handler, game.getMenu()));
             }
 
@@ -76,8 +63,15 @@ public class Spawn {
 
     public void tick() {
         scoreKeep++;
-
         updateSpawn();
+    }
+
+    public void setScoreKeep(int i) {
+        scoreKeep = i;
+    }
+
+    void increaseLevel() {
+        scoreKeep = 600;
     }
 
 }

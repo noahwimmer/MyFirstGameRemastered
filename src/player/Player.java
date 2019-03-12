@@ -77,7 +77,7 @@ public class Player extends GameObject{
 			if(tempObject.getId() == ID.Enemy || tempObject.getId() == ID.SlowEnemy || tempObject.getId() == ID.SlowEnemyBullet) {
 				if(getBounds().intersects(tempObject.getBounds())) {
 					// Collision code
-					HUD.HEALTH -= 2;
+					HUD.HEALTH -= 2.1f;
 				}
 			}
 

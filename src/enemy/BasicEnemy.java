@@ -1,9 +1,7 @@
 package enemy;
 
 import interfaces.Menu;
-import main.GameObject;
-import main.Handler;
-import main.ID;
+import main.*;
 import player.PlayerShield;
 import util.Constants;
 
@@ -15,20 +13,11 @@ public class BasicEnemy extends GameObject {
     private Handler handler;
     private Random r = new Random();
     private Menu menu;
-    private GameObject player;
 
     public BasicEnemy(Rectangle location, ID id, Handler handler, Menu menu) {
         super(location, id);
         this.handler = handler;
         this.menu = menu;
-
-        for (int i = 0; i < handler.getObject().size(); i++) {
-            GameObject tempObject = handler.getObject().get(i);
-
-            if (tempObject.getId() == ID.Player) {
-                this.player = tempObject;
-            }
-        }
 
         velX = (r.nextFloat() * 2.9f) + 1.333f;
         velY = (r.nextFloat() * 2.9f) + 1.333f;
@@ -41,16 +30,6 @@ public class BasicEnemy extends GameObject {
 
         velX = (r.nextFloat() * 2.9f) + 1.333f;
         velY = (r.nextFloat() * 2.9f) + 1.333f;
-
-        for (int i = 0; i < handler.getObject().size(); i++) {
-            GameObject tempObject = handler.getObject().get(i);
-
-            if (tempObject.getId() == ID.Player) {
-                this.player = tempObject;
-            }
-        }
-
-
     }
 
     @Override
@@ -101,25 +80,25 @@ public class BasicEnemy extends GameObject {
 
             if (tempObject.getId() == ID.PlayerShield) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    if (PlayerShield.getDir()[Constants.TOP]) y -= 6;
-                    if (PlayerShield.getDir()[Constants.RIGHT]) x += 6;
-                    if (PlayerShield.getDir()[Constants.BOTTOM]) y += 6;
-                    if (PlayerShield.getDir()[Constants.LEFT]) x -= 10;
+                    if (PlayerShield.getDir()[Constants.TOP]) y -= 8;
+                    if (PlayerShield.getDir()[Constants.RIGHT]) x += 8;
+                    if (PlayerShield.getDir()[Constants.BOTTOM]) y += 8;
+                    if (PlayerShield.getDir()[Constants.LEFT]) x -= 12;
                     if (PlayerShield.getDir()[Constants.TOP_LEFT]) {
-                        x -= 6;
-                        y -= 6;
+                        x -= 8;
+                        y -= 8;
                     }
                     if (PlayerShield.getDir()[Constants.TOP_RIGHT]) {
-                        x += 6;
-                        y -= 6;
+                        x += 8;
+                        y -= 8;
                     }
                     if (PlayerShield.getDir()[Constants.BOTTOM_LEFT]) {
-                        y += 6;
-                        x -= 6;
+                        y += 8;
+                        x -= 8;
                     }
                     if (PlayerShield.getDir()[Constants.BOTTOM_RIGHT]) {
-                        y += 6;
-                        x += 6;
+                        y += 8;
+                        x += 8;
                     }
                 }
             }
