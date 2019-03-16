@@ -27,9 +27,6 @@ public class Menu extends MouseAdapter {
     private BufferedWriter bufferedWriter;
 
     private String[] line = {"", "", ""};
-
-    private final String FILE_PATH = "res/Options/saved_options/options";
-
     private Image trails;
     private Image noTrails;
 
@@ -53,7 +50,7 @@ public class Menu extends MouseAdapter {
         }
 
         try {
-            bufferedReader = new BufferedReader(new FileReader(new File(FILE_PATH)));
+            bufferedReader = new BufferedReader(new FileReader(new File(Game.FILE_PATH)));
 
             line[0] = bufferedReader.readLine();
             line[1] = bufferedReader.readLine();
@@ -82,8 +79,8 @@ public class Menu extends MouseAdapter {
         }
 
         if (game.gameState == Game.STATE.Menu) {
-            for (int i = 0; i < 100; i++) {
-                handler.addObject(new MenuParticle(Constants.spawnZone, ID.Enemy, handler, this));
+            for (int i = 0; i < 90; i++) {
+                handler.addObject(new MenuParticle(Constants.spawnZone, ID.NaN, handler, this));
             }
         }
 
@@ -241,7 +238,6 @@ public class Menu extends MouseAdapter {
             if (mouseOver(mx, my, (Constants.GAME_WIDTH / 3) + 20, 200, (Constants.GAME_HEIGHT / 3), 64)) {
                 handler.removeAll();
                 game.gameState = Game.STATE.Game;
-                handler.addObject(new Player((Constants.GAME_WIDTH / 2.0f), (Constants.GAME_HEIGHT / 2.0f), ID.Player, handler));
                 handler.addObject(new BasicEnemy(Constants.spawnZone, ID.Enemy, handler, this));
             }
 
@@ -336,7 +332,7 @@ public class Menu extends MouseAdapter {
 
     public void apply() throws IOException {
 
-        bufferedWriter = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
+        bufferedWriter = new BufferedWriter(new FileWriter(new File(Game.FILE_PATH)));
 
         for(int i = 0; i < options.length; i++) {
             if(options[i]) {

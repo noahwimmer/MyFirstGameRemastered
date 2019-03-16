@@ -3,6 +3,7 @@ package core.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Optional;
 import java.util.Random;
 
 import core.Powerups.Powerup;
@@ -14,11 +15,12 @@ import core.main.Handler;
 import core.main.ID;
 import core.util.Constants;
 
-public class Player extends GameObject{
+public class Player extends GameObject {
 	
 	private Random r;
 	private Handler handler;
 	private PlayerShield shield;
+	private boolean shootable = false;
 
 	private int powerUpTimer = 0;
 
@@ -28,12 +30,24 @@ public class Player extends GameObject{
 	    return shieldOn;
     }
 
+    public boolean getShootable() {
+		return shootable;
+	}
+
 	public Player(float x, float y, ID id, Handler handler) {
 		super(x, y, id);
 		this.handler = handler;
 		r = new Random();
 
+		handler.addObject(this);
+
 		shield = new PlayerShield(x, y, ID.PlayerShield, handler, this);
+	}
+
+	public void shoot() {
+		if(shootable) {
+			handler.addObject(new PlayerBullet(x, y, velX * 3, velY * 3 , ID.Bullet, handler));
+		}
 	}
 
 	@Override
@@ -96,5 +110,7 @@ public class Player extends GameObject{
 	private int toTicks(int seconds) {
 	    return seconds * 60;
     }
+
+    public void enableShootable() {shootable  = true;}
 
 }

@@ -10,6 +10,8 @@ import java.awt.*;
 
 public class SlowEnemy extends GameObject {
 
+    private int HEALTH = 100;
+
     private Handler handler;
     private Menu menu;
 
@@ -59,6 +61,8 @@ public class SlowEnemy extends GameObject {
         x += velX;
         y += velY;
 
+        collision();
+
 
         if (y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
         if (x <= 0 || x >= Constants.GAME_WIDTH - 30) velX *= -1;
@@ -68,6 +72,17 @@ public class SlowEnemy extends GameObject {
     public void render(Graphics g) {
         g.setColor(Constants.PURPLE);
         g.fillRect((int) x, (int) y, 22, 22);
+    }
+
+    private void collision() {
+        for (int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+            if (tempObject.getId() == ID.Bullet) {
+                HEALTH-= .5f;
+            }
+        }
     }
 
     @Override

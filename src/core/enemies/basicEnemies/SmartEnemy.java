@@ -3,10 +3,14 @@ package core.enemies.basicEnemies;
 import core.main.GameObject;
 import core.main.Handler;
 import core.main.ID;
+import core.player.PlayerShield;
+import core.util.Constants;
 
 import java.awt.*;
 
 public class SmartEnemy extends GameObject {
+
+    private int HEALTH = 100;
 
     private Handler handler;
     private GameObject player;
@@ -48,6 +52,8 @@ public class SmartEnemy extends GameObject {
                         (Math.pow(getY() - player.getY(), 2))   // y2 - y1 ** 2
         );
 
+        collision();
+
         velX = (float) ((-1.0 / distance) * diffX);
         velY = (float) ((-1.0 / distance) * diffY);
 
@@ -58,5 +64,16 @@ public class SmartEnemy extends GameObject {
     public void render(Graphics g) {
         g.setColor(Color.green);
         g.fillRect((int) x, (int) y, 16, 16);
+    }
+
+    private void collision() {
+        for (int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+            if (tempObject.getId() == ID.Bullet) {
+                HEALTH-= .5f;
+            }
+        }
     }
 }

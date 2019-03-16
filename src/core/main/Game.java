@@ -5,6 +5,7 @@ package core.main;
 
 import core.interfaces.HUD;
 import core.interfaces.Menu;
+import core.player.Player;
 import core.util.Constants;
 import core.util.KeyInput;
 import core.util.Spawn;
@@ -16,12 +17,16 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = -7071532049979466544L;
+    public static final String FILE_PATH = "res/Options/saved_options/options";
+
 
     public static boolean lock60 = false;
-    public STATE gameState = STATE.Menu; // Initial gameState on launch
-    public STATE lastState;
     private boolean running = false;
     private int showFrames;
+
+    public STATE gameState = STATE.Menu; // Initial gameState on launch
+    public STATE lastState;
+    private Player player;
     private Thread thread;
     private Handler handler;
     private HUD hud;
@@ -44,8 +49,14 @@ public class Game extends Canvas implements Runnable {
      * @return the menu instance
      */
     public Menu getMenu() {
-        if (menu != null) return menu;
-        else return null;
+        return menu;
+    }
+
+    /**
+     * @return The player object
+     */
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -70,7 +81,8 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         this.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {}
+            public void focusGained(FocusEvent e) {
+            }
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -82,10 +94,11 @@ public class Game extends Canvas implements Runnable {
             }
         });
         handler = new Handler();
+        player = new Player((Constants.GAME_WIDTH / 2.0f), (Constants.GAME_HEIGHT / 2.0f), ID.Player, handler);
         hud = new HUD(this, handler);
         spawner = new Spawn(handler, hud, this);
         menu = new Menu(this, handler, hud, spawner);
-        keyInput = new KeyInput(handler,spawner,this,menu);
+        keyInput = new KeyInput(handler, spawner, this, menu, player);
 
         this.addKeyListener(keyInput);
         this.addMouseListener(menu);
@@ -183,7 +196,9 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    /**Runs both <code>tick()</code> and <code>render(Graphics g)</code> methods to make it run smoother (if the "limit FPS" is enabled)*/
+    /**
+     * Runs both <code>tick()</code> and <code>render(Graphics g)</code> methods to make it run smoother (if the "limit FPS" is enabled)
+     */
     private synchronized void synchronizedLoop() {
         tick();
         render();

@@ -11,6 +11,8 @@ import java.awt.*;
 
 public class SlowEnemyBullet extends GameObject {
 
+    private int HEALTH = 50;
+
     private Handler handler;
     private SlowEnemy slowEnemy;
     private Menu menu;
@@ -50,6 +52,7 @@ public class SlowEnemyBullet extends GameObject {
         }
         if (count >= distance) handler.removeObject(this);
 
+        collision();
 
         if (y <= 0 || y >= Constants.GAME_HEIGHT - 40) velY *= -1;
         if (x <= 0 || x >= Constants.GAME_WIDTH - 30) velX *= -1;
@@ -66,6 +69,17 @@ public class SlowEnemyBullet extends GameObject {
     public void render(Graphics g) {
         g.setColor(Constants.PURPLE);
         g.fillRect((int) x, (int) y, 9, 9);
+    }
+
+    private void collision() {
+        for (int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+            if (tempObject.getId() == ID.Bullet) {
+                HEALTH-= .5f;
+            }
+        }
     }
 
     @Override

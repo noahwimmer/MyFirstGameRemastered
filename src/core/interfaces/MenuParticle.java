@@ -1,5 +1,6 @@
 package core.interfaces;
 
+import core.Powerups.Powerup;
 import core.util.Trail;
 import core.main.Game;
 import core.main.GameObject;
@@ -46,8 +47,10 @@ public class MenuParticle extends GameObject {
         x += velX;
         y += velY;
 
+        collision();
+
         if (y <= 0 || y >= Constants.GAME_HEIGHT - 50) velY *= -1;
-        if (x <= 0 || x >= Constants.GAME_WIDTH - 16) velX *= -1;
+        if (x <= 0 || x >= Constants.GAME_WIDTH - 38) velX *= -1;
 
         if (menu.getOptions()[0]) {
             handler.addObject(new Trail(x, y, ID.Trail, color, 16, 16, Constants.DECAY, handler));
@@ -60,4 +63,25 @@ public class MenuParticle extends GameObject {
         g.fillRect((int) x, (int) y, 16, 16);
 
     }
+
+    private void collision() {
+        for(int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+
+
+            if(tempObject.getId() == ID.Player) {
+                if(getBounds().intersects(tempObject.getBounds())) {
+                    // Collision code
+                    velX *= -1;
+                    velY *= -1;
+                }
+            }
+
+
+        }
+    }
+
+
 }

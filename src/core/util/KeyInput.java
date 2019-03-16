@@ -6,6 +6,7 @@ import core.main.Game;
 import core.main.GameObject;
 import core.main.Handler;
 import core.main.ID;
+import core.player.Player;
 import core.player.PlayerShield;
 
 import java.awt.event.KeyAdapter;
@@ -13,17 +14,19 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
+    private Player player;
     private Game game;
     private Handler handler;
     private Spawn spawn;
     private Menu menu;
     private boolean[] keyDown = new boolean[4];
 
-    public KeyInput(Handler handler, Spawn spawn, Game game, Menu menu) {
+    public KeyInput(Handler handler, Spawn spawn, Game game, Menu menu, Player player) {
         this.handler = handler;
         this.spawn = spawn;
         this.game = game;
         this.menu = menu;
+        this.player = player;
 
         keyDown[0] = false;
         keyDown[1] = false;
@@ -95,13 +98,15 @@ public class KeyInput extends KeyAdapter {
                     tempObject.setVelX(+5);
                     keyDown[3] = true;
                 }
-
+                if(key == KeyEvent.VK_SPACE && game.getPlayer().getShootable()) {
+                    game.getPlayer().shoot();
+                }
             }
-            if (key == KeyEvent.VK_1) spawn.increaseLevel();
 
 
             //Add more if-statements like above for more characters
         }
+        if (key == KeyEvent.VK_1) spawn.increaseLevel();
     }
 
     public void keyReleased(KeyEvent e) {

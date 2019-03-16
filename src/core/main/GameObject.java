@@ -118,7 +118,7 @@ public abstract class GameObject {
      * Use this method to set a new velocity in the X direction
      * @param velX The new velocity
      */
-    public void setVelX(int velX) {
+    public void setVelX(float velX) {
         this.velX = velX;
     }
 
@@ -134,7 +134,7 @@ public abstract class GameObject {
      * Use this method to set a new velocity in the Y direction
      * @param velY The new velocity
      */
-    public void setVelY(int velY) {
+    public void setVelY(float velY) {
         this.velY = velY;
     }
 }

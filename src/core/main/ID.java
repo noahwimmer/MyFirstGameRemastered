@@ -8,6 +8,8 @@ public enum ID {
     SlowEnemyBullet,
     Trail,
     PlayerShield,
-    PowerUp
+    PowerUp,
+    Bullet,
+    NaN
 
 }

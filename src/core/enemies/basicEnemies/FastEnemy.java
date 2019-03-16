@@ -17,6 +17,8 @@ public class FastEnemy extends GameObject {
     private Random r = new Random();
     private Menu menu;
 
+    private float HEALTH = 100f;
+
     public FastEnemy(Rectangle location, ID id, Handler handler, Menu menu) {
         super(location, id);
         this.handler = handler;
@@ -89,6 +91,10 @@ public class FastEnemy extends GameObject {
                         x += 6;
                     }
                 }
+            }
+
+            if (tempObject.getId() == ID.Bullet) {
+                HEALTH-= .5f;
             }
         }
     }

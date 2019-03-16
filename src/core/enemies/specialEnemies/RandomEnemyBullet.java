@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class RandomEnemyBullet extends GameObject {
 
+    private int HEALTH = 50;
+
     private Handler handler;
     private Random r = new Random();
 
@@ -25,6 +27,8 @@ public class RandomEnemyBullet extends GameObject {
     public void tick() {
         x += velX;
         y += velY;
+
+        collision();
 
         if (y <= 0) {
             handler.removeObject(this);
@@ -66,6 +70,17 @@ public class RandomEnemyBullet extends GameObject {
             case 6:
                 g.fillRect((int) x, (int) y, 6, 6);
                 break;
+        }
+    }
+
+    private void collision() {
+        for (int i = 0; i < handler.getObject().size(); i++) {
+
+            GameObject tempObject = handler.getObject().get(i);
+
+            if (tempObject.getId() == ID.Bullet) {
+                HEALTH-= .5f;
+            }
         }
     }
 

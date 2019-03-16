@@ -62,6 +62,8 @@ public class Spawn {
             if (hud.getLevel() == 5 || hud.getLevel() == 6) {
                 handler.addObject(new FastEnemy(Constants.spawnZone, ID.Enemy, handler, game.getMenu()));
             }
+
+            if(hud.getLevel() == 15) game.getPlayer().enableShootable();
         }
     }
 
@@ -75,7 +77,7 @@ public class Spawn {
     }
 
     void increaseLevel() {
-        scoreKeep = 600;
+        scoreKeep = 650;
     }
 
 }
