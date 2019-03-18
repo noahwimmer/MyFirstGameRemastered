@@ -1,4 +1,6 @@
-# My First Game Remastered
+# My First Game Remastered -- temp branch
+
+# This is the branch that i push to from my home computer. Do not checkout from this branch unless you want problems. Easiest way is to just copy the code. 
 
 ## What is this?
 I'm glad you asked! This is a remastered version of my first game found at https://github.com/datWaffle21/Making-a-game. That repository is convoluted as heck so I decided to make a better, remastered version!
