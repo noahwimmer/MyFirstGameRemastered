@@ -84,11 +84,15 @@ public class BasicEnemy extends GameObject {
         g.setColor(Color.red);
         g.fillRect((int) x, (int) y, 24, 24);
 
-        if (HEALTH < 100) {
-            g.setColor(new Color(0, (int) greenValue, 0));
-            g.fillRect((int) x - 5, (int) y - 10, (int)(.34 * HEALTH), 6);
-            g.setColor(Color.lightGray);
-            g.drawRect((int) x - 5, (int) y - 10, 34, 6);
+        try {
+            if (HEALTH < 100) {
+                g.setColor(new Color(0, (int) greenValue, 0));
+                g.fillRect((int) x - 5, (int) y - 10, (int) (.34 * HEALTH), 6);
+                g.setColor(Color.lightGray);
+                g.drawRect((int) x - 5, (int) y - 10, 34, 6);
+            }
+        } catch(IllegalArgumentException e) {
+            e.printStackTrace();
         }
     }
 

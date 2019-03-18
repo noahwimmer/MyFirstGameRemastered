@@ -3,6 +3,7 @@ package core.player;
 import core.main.GameObject;
 import core.main.Handler;
 import core.main.ID;
+import core.util.Constants;
 
 import java.awt.*;
 
@@ -35,6 +36,10 @@ public class PlayerBullet extends GameObject {
         y += velY;
 
         if(velX == 0 && velY == 0) {
+            handler.removeObject(this);
+        }
+
+        if(y < 0 || y > Constants.GAME_HEIGHT || x < 0 || x > Constants.GAME_WIDTH) {
             handler.removeObject(this);
         }
     }

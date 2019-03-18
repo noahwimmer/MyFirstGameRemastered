@@ -4,6 +4,7 @@ import core.Powerups.Powerup;
 import core.enemies.basicEnemies.BasicEnemy;
 import core.enemies.basicEnemies.FastEnemy;
 import core.enemies.basicEnemies.SmartEnemy;
+import core.enemies.bosses.EnemyBoss;
 import core.enemies.specialEnemies.RandomEnemy;
 import core.enemies.specialEnemies.SlowEnemy;
 import core.interfaces.HUD;
@@ -64,12 +65,16 @@ public class Spawn {
             }
 
             if(hud.getLevel() == 15) game.getPlayer().enableShootable();
+
         }
     }
 
     public void tick() {
         scoreKeep++;
         updateSpawn();
+        if(handler.getObject().size() == 2 && hud.getLevel() >= 15) {
+            handler.addObject(new EnemyBoss((Constants.GAME_WIDTH / 2) - 50, -120, ID.Enemy, handler));
+        }
     }
 
     public void setScoreKeep(int i) {

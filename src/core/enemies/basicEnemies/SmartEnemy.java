@@ -12,6 +12,9 @@ public class SmartEnemy extends GameObject {
 
     private int HEALTH = 100;
 
+    private float greenValue;
+
+
     private Handler handler;
     private GameObject player;
 
@@ -42,6 +45,13 @@ public class SmartEnemy extends GameObject {
         setX(x += getVelX());
         setY(y += getVelY());
 
+        greenValue = (float) (HEALTH * 2.55);
+
+        if (HEALTH == 0) {
+            handler.removeObject(this);
+        }
+
+
         float diffX = x - player.getX() - 8f;
         float diffY = y - player.getY() - 8f;
         float distance = (float) Math.sqrt(
@@ -64,6 +74,17 @@ public class SmartEnemy extends GameObject {
     public void render(Graphics g) {
         g.setColor(Color.green);
         g.fillRect((int) x, (int) y, 16, 16);
+
+        try {
+            if (HEALTH < 100) {
+                g.setColor(new Color(0, (int) greenValue, 0));
+                g.fillRect((int) x - 5, (int) y - 10, (int) (.34 * HEALTH), 6);
+                g.setColor(Color.lightGray);
+                g.drawRect((int) x - 5, (int) y - 10, 34, 6);
+            }
+        } catch(IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     private void collision() {
@@ -72,7 +93,9 @@ public class SmartEnemy extends GameObject {
             GameObject tempObject = handler.getObject().get(i);
 
             if (tempObject.getId() == ID.Bullet) {
-                HEALTH-= .5f;
+                if ((getBounds().intersects(tempObject.getBounds()))) {
+                    HEALTH -= 10f;
+                }
             }
         }
     }
