@@ -133,6 +133,14 @@ public class Menu extends MouseAdapter {
 			g.drawRect((Constants.GAME_WIDTH / 3) + 5, 400, (Constants.GAME_WIDTH / 3), 64);
 		}
 
+		if(game.gameState == STATE.Win) {
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("ariel", Font.BOLD, 45));
+			g.drawString("Congratulations!", 300,300);
+			g.drawString("Play Again?", 280, 440);
+			g.drawRect(200, 400, 300, 64);
+		}
+
 		if (game.gameState == STATE.End) {
 			g.setFont(bigFont);
 			g.setColor(Color.red);
@@ -253,6 +261,24 @@ public class Menu extends MouseAdapter {
 				game.gameState = STATE.Menu;
 				return;
 			}
+		}
+
+		//Win gamestate
+		if(game.gameState == STATE.Win) {
+			if(mouseOver(mx, my, 200, 400, 300, 64)) {
+				HUD.HEALTH = 100;
+				handler.removeAll();
+				handler.vaultObject(game.getPlayer());
+				handler.vaultObject(game.getPlayer().getPlayerShield());
+				spawn.setScoreKeep(0);
+				HUD.score = 0;
+				hud.setLevel(1);
+				game.gameState = STATE.Game;
+				handler.returnFromVault(game.getPlayer());
+				handler.returnFromVault(game.getPlayer().getPlayerShield());
+				handler.addObject(new BasicEnemy((r.nextInt(Constants.GAME_WIDTH)), (r.nextInt(Constants.GAME_HEIGHT)), ID.Enemy, handler, this));
+			}
+
 		}
 
 		// End game state

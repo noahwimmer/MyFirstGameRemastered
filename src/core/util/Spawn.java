@@ -16,6 +16,8 @@ public class Spawn {
     private GameObject object;
     private Game game;
 
+    private boolean bossSpawned = false;
+
     private int scoreKeep = 0;
 
     public Spawn(Handler handler, HUD hud, Game game) {
@@ -72,7 +74,10 @@ public class Spawn {
     public void tick() {
         scoreKeep++;
         updateSpawn();
-        if(handler.getObject().size() == 2 && hud.getLevel() >= 15) {
+        if(handler.getObject().size() == 2 && hud.getLevel() >= 15 && !bossSpawned) {
+            handler.addObject(new EnemyBoss((Constants.GAME_WIDTH / 2) - 50, -120, ID.Enemy, handler, game));
+            bossSpawned = true;
+        } if(handler.getObject().size() == 2 && bossSpawned) {
             handler.addObject(new EnemyBoss((Constants.GAME_WIDTH / 2) - 50, -120, ID.Enemy, handler, game));
         }
     }

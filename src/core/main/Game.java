@@ -71,6 +71,7 @@ public class Game extends Canvas implements Runnable {
         Options,
         Menu,
         End,
+        Win,
         Help
 
     }
