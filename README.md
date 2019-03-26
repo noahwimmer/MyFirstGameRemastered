@@ -1,9 +1,11 @@
-# My First Game Remastered
+# My First Game Remastered -- temp branch
+
+# This is the branch that i push to from my home computer. Do not checkout from this branch unless you want problems. Easiest way is to just copy the code. 
 
 ## What is this?
 I'm glad you asked! This is a remastered version of my first game found at https://github.com/datWaffle21/Making-a-game. That repository is convoluted as heck so I decided to make a better, remastered version!
 
-This is going to utilize more organized code with different packages for different styles of code(main, util). I also released a roadmap for which I would like to complete. For anyone thats interested, you can download the game and run it on eclipse (https://www.eclipse.org/downloads/) open the project and run the program! Any issues you find would be gladly appreciated! Please open new issues as you find them!
+This is going to utilize more organized code with different packages for different styles of code(core.main, core.util). I also released a roadmap for which I would like to complete. For anyone thats interested, you can download the game and run it on eclipse (https://www.eclipse.org/downloads/) open the project and run the program! Any issues you find would be gladly appreciated! Please open new issues as you find them!
 
 ## Want to open an issue?
 First  off, thank you so much! You can open an issue at https://github.com/datWaffle21/MyFirstGameRemastered/issues and hit new issue! Please choose the fitting template for your issue. If it is something wrong in the code, please use the bug report template, otherwise, if its a feature request, please use the wonderfully named feature request template!
