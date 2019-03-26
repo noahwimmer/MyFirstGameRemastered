@@ -17,5 +17,6 @@ public class Constants {
     public static final int BOTTOM_LEFT = 5;
     public static final int LEFT = 6;
     public static final int TOP_LEFT = 7;
+    public static final int BULLET_DAMAGE = 34;
 
 }

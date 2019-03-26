@@ -14,19 +14,17 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-    private Player player;
     private Game game;
     private Handler handler;
     private Spawn spawn;
     private Menu menu;
     private boolean[] keyDown = new boolean[4];
 
-    public KeyInput(Handler handler, Spawn spawn, Game game, Menu menu, Player player) {
+    public KeyInput(Handler handler, Spawn spawn, Game game, Menu menu) {
         this.handler = handler;
         this.spawn = spawn;
         this.game = game;
         this.menu = menu;
-        this.player = player;
 
         keyDown[0] = false;
         keyDown[1] = false;

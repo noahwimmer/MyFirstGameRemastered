@@ -10,82 +10,95 @@ import java.util.Random;
 
 public class RandomEnemyBullet extends GameObject {
 
-    private int HEALTH = 50;
+	private int HEALTH = 50;
 
-    private Handler handler;
-    private Random r = new Random();
+	private Handler handler;
+	private Random r = new Random();
 
-    public RandomEnemyBullet(float x, float y, ID id, Handler handler, float velX, float velY) {
-        super(x, y, id);
-        this.handler = handler;
 
-        this.velX = velX;
-        this.velY = velY;
-    }
+	public RandomEnemyBullet(float x, float y, ID id, Handler handler, float velX, float velY) {
+		super(x, y, id);
+		this.handler = handler;
 
-    @Override
-    public void tick() {
-        x += velX;
-        y += velY;
+		this.velX = velX;
+		this.velY = velY;
+	}
 
-        collision();
+	@Override
+	public void tick() {
+		x += velX;
+		y += velY;
 
-        if (y <= 0) {
-            handler.removeObject(this);
-        }
-        if (y >= Constants.GAME_HEIGHT - 60) {
-            handler.removeObject(this);
-        }
-        if (x <= 0) {
-            handler.removeObject(this);
-        }
-        if (x >= Constants.GAME_WIDTH - 40) {
-            handler.removeObject(this);
-        }
-    }
+		GameObject o = null;
 
-    @Override
-    public void render(Graphics g) {
-        int loc = r.nextInt(7);
-        g.setColor(Color.yellow);
-        switch (loc) {
-            case 0:
-                g.fillRect((int) x - 3, (int) y - 3, 6, 6);
-                break;
-            case 1:
-                g.fillRect((int) x, (int) y - 3, 6, 6);
-                break;
-            case 2:
-                g.fillRect((int) x - 2, (int) y + 3, 6, 6);
-                break;
-            case 3:
-                g.fillRect((int) x - 5, (int) y, 6, 6);
-                break;
-            case 4:
-                g.fillRect((int) x + 1, (int) y - 4, 6, 6);
-                break;
-            case 5:
-                g.fillRect((int) x + 1, (int) y + 4, 6, 6);
-                break;
-            case 6:
-                g.fillRect((int) x, (int) y, 6, 6);
-                break;
-        }
-    }
+		for (int i = 0; i < handler.getObject().size(); i++) {
+			GameObject tempObject = handler.getObject().get(i);
 
-    private void collision() {
-        for (int i = 0; i < handler.getObject().size(); i++) {
+			if (tempObject.getId() == ID.RandomEnemy) o = tempObject;
+		}
 
-            GameObject tempObject = handler.getObject().get(i);
+		if (o == null) {
+			handler.removeObject(this);
+		}
 
-            if (tempObject.getId() == ID.Bullet) {
-                HEALTH-= .5f;
-            }
-        }
-    }
+		collision();
 
-    @Override
-    public Rectangle getBounds() {
-        return new Rectangle((int) x, (int) y, 26, 26);
-    }
+		if (y <= 0) {
+			handler.removeObject(this);
+		}
+		if (y >= Constants.GAME_HEIGHT - 60) {
+			handler.removeObject(this);
+		}
+		if (x <= 0) {
+			handler.removeObject(this);
+		}
+		if (x >= Constants.GAME_WIDTH - 40) {
+			handler.removeObject(this);
+		}
+	}
+
+	@Override
+	public void render(Graphics g) {
+		int loc = r.nextInt(7);
+		g.setColor(Color.yellow);
+		switch (loc) {
+			case 0:
+				g.fillRect((int) x - 3, (int) y - 3, 6, 6);
+				break;
+			case 1:
+				g.fillRect((int) x, (int) y - 3, 6, 6);
+				break;
+			case 2:
+				g.fillRect((int) x - 2, (int) y + 3, 6, 6);
+				break;
+			case 3:
+				g.fillRect((int) x - 5, (int) y, 6, 6);
+				break;
+			case 4:
+				g.fillRect((int) x + 1, (int) y - 4, 6, 6);
+				break;
+			case 5:
+				g.fillRect((int) x + 1, (int) y + 4, 6, 6);
+				break;
+			case 6:
+				g.fillRect((int) x, (int) y, 6, 6);
+				break;
+		}
+	}
+
+	private void collision() {
+		for (int i = 0; i < handler.getObject().size(); i++) {
+
+			GameObject tempObject = handler.getObject().get(i);
+
+			if (tempObject.getId() == ID.Bullet) {
+				HEALTH -= .5f;
+			}
+		}
+	}
+
+	@Override
+	public Rectangle getBounds() {
+		return new Rectangle((int) x, (int) y, 26, 26);
+	}
 }

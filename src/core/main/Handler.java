@@ -6,28 +6,15 @@ import java.util.LinkedList;
 public class Handler {
 
     private LinkedList<GameObject> object = new LinkedList<>();
-    private LinkedList<GameObject> toDispose = new LinkedList<>();
-    private LinkedList<GameObject> toAdd = new LinkedList<>();
+    private LinkedList<GameObject> vault = new LinkedList<>();
 
 
     public LinkedList<GameObject> getObject() {
         return object;
     }
 
-    public LinkedList<GameObject> getToDispose() {
-        return toDispose;
-    }
-
-    public LinkedList<GameObject> getToAdd() {
-        return toAdd;
-    }
-
-    public void addTrash(GameObject object) {
-        toDispose.add(object);
-    }
-
-    public void addToList(GameObject object) {
-        toAdd.add(object);
+    public LinkedList<GameObject> getVault() {
+        return vault;
     }
 
     public void tick() {
@@ -36,15 +23,6 @@ public class Handler {
 
             tempObject.tick();
         }
-        // this is such a pretty for loop and so simple i love it. (I thought i'd like to remember this moment
-        for (int j = 0; j < 1; j++) {
-            for (int i = 0; i < toDispose.size(); i++) {
-                object.remove(toDispose.get(i));
-            }
-        }
-
-        object.addAll(toAdd);
-        toAdd.clear();
     }
 
     public void render(Graphics g) {
@@ -67,7 +45,16 @@ public class Handler {
     public void removePlayer() {
         for (int i = 0; i < this.object.size(); i++) {
             GameObject tempObject = this.object.get(i);
-            if (tempObject.getId() == ID.Player || tempObject.getId() == ID.PlayerShield) {
+            if (tempObject.getId() == ID.Player) {
+                this.removeObject(tempObject);
+                i--;
+            }if (tempObject.getId() == ID.PlayerShield) {
+                this.removeObject(tempObject);
+                i--;
+            }
+        }for (int i = 0; i < this.object.size(); i++) {
+            GameObject tempObject = this.object.get(i);
+            if (tempObject.getId() == ID.PlayerShield) {
                 this.removeObject(tempObject);
                 i--;
             }
@@ -84,4 +71,35 @@ public class Handler {
             }
         }
     }
+
+    public void vaultPlayer() {
+        for(int i = 0; i < this.object.size(); i++) {
+            GameObject tempObject = object.get(i);
+
+            if(tempObject.getId() == ID.Player) {
+                vaultObject(tempObject);
+            }
+        }
+    }
+
+    public void returnPlayer() {
+        for(int i = 0; i < this.object.size(); i++) {
+            GameObject tempObject = object.get(i);
+
+            if(tempObject.getId() == ID.Player) {
+                returnFromVault(tempObject);
+            }
+        }
+    }
+
+    public void vaultObject(GameObject o) {
+        this.vault.add(o);
+        this.object.remove(o);
+    }
+
+    public void returnFromVault(GameObject o) {
+        this.object.add(o);
+        this.vault.remove(o);
+    }
+
 }

@@ -34,6 +34,10 @@ public class Player extends GameObject {
 		return shootable;
 	}
 
+	public PlayerShield getPlayerShield() {
+		return shield;
+	}
+
 	public Player(float x, float y, ID id, Handler handler) {
 		super(x, y, id);
 		this.handler = handler;
@@ -86,8 +90,6 @@ public class Player extends GameObject {
 			
 			GameObject tempObject = handler.getObject().get(i);
 
-
-			
 			if(tempObject.getId() == ID.Enemy || tempObject.getId() == ID.SlowEnemy || tempObject.getId() == ID.SlowEnemyBullet) {
 				if(getBounds().intersects(tempObject.getBounds())) {
 					// Collision code
